@@ -1,4 +1,8 @@
 {
+  "name": "server",
+  "version": "1.0.0",
+  "main": "index.js",
+  "type": "module",
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cookie-parser": "^1.4.6",
@@ -8,14 +12,11 @@
     "mongoose": "^8.1.0",
     "dotenv": "^16.3.1"
   },
-  "name": "server",
-  "version": "1.0.0",
-  "main": "index.js",
   "devDependencies": {
     "nodemon": "^3.0.3"
   },
   "scripts": {
-    "dev": "nodemon index.js",
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
