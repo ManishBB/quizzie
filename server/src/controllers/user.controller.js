@@ -75,6 +75,13 @@ const loginUser = async (req, res) => {
     )
 }
 
+// TODO: logout route
+// TODO: 
+// TODO: 
+// TODO: 
+// TODO: 
+// TODO: 
+
 export { 
     registerUser, 
     loginUser

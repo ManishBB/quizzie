@@ -8,14 +8,8 @@ const optionsSchema = new mongoose.Schema({
     type: String,
   },
   impressions: {
-    correctAnswerCount: {
-      type: Number,
-      defaultValue: 0,
-    },
-    weongAnswerCount: {
-      type: Number,
-      defaultValue: 0,
-    }
+    type: Number,
+    default: 0,
   }
 });
 
@@ -27,6 +21,14 @@ const questionSchema = new mongoose.Schema({
   correctAnswer: {
     type: Number,
     required: true
+  },
+  qnaCorrectAnswerImpressions: {
+    type: Number,
+    default: 0
+  },
+  qnaWrongAnswerImpressions: {
+    type: Number,
+    default: 0
   },
   options: {
     type: [optionsSchema],
@@ -41,7 +43,7 @@ const quizSchema = new mongoose.Schema({
   },
   impressions: {
     type: Number,
-    defaultValue: 0
+    default: 0
   },
   quizName: {
     type: String,
@@ -53,7 +55,7 @@ const quizSchema = new mongoose.Schema({
   },
   timer: {
     type: Number,
-    defaultValue: 0
+    default: 0
   },
   questions: {
     type: [questionSchema],

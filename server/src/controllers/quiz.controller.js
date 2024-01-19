@@ -43,6 +43,17 @@ const getQuizById = async (req,res) => {
 
 }
 
+// TODO: Delete a quiz
+// TODO: Edit/Update the quiz
+// TODO: Update quiz impressions
+// TODO: Aggregation : 1)Total quizzes created 2)Total questions created 3)Total impressions on quiz
+// TODO: Update qna quiz impressions
+// TODO: Update poll quiz impressions
+// TODO: Get trending quizzes according to trending criteria
+// TODO: Get all quizzes according to recently created
+// TODO:
+// TODO:
+
 export { 
     createQuiz,
     getQuizById
