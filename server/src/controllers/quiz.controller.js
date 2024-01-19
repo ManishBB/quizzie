@@ -4,13 +4,16 @@ import { ApiResponse } from "../utils/ApiResponse.js"
 
 const createQuiz = async (req, res) => {
 
-    const { questions } = req.body;
+    const { quizName, quizType, timer, questions } = req.body;
     
     const user = req.user?._id
     // Create a new quiz object
     const quiz = await Quiz.create({
-        questions,
-        createdBy: user
+        ownersEmail: req.user?.email,
+        quizName: quizName,
+        quizType: quizType,
+        timer: timer,
+        questions: questions
     })
     
     const createdQuiz = await Quiz.findById(quiz._id)
@@ -24,7 +27,23 @@ const createQuiz = async (req, res) => {
     )
 }   
 
+const getQuizById = async (req,res) => {
+
+    const quizId = req.params.quizId
+
+    const quiz = await Quiz.findById(quizId)
+
+    if(!quiz) throw new ApiError(500, "Something went wrong while getting quiz")
+
+    return res
+    .status(200)
+    .json(
+        new ApiResponse(200, quiz, "Quiz fetched successfully")
+    )
+
+}
 
 export { 
-    createQuiz
+    createQuiz,
+    getQuizById
 }
