@@ -1,0 +1,72 @@
+.analysisContainer{
+    flex: 8;
+    width: 80vw;
+    height: 100vh;
+    background-color: #EDEDED;
+    overflow: hidden;
+    text-align: center;
+}
+
+.heading {
+    font-size: 50px;
+    color: #5076FF;
+}
+
+tr > th {
+    background-color: #5076FF;
+    color: #FFFFFF;
+}
+
+tr th:first-child { 
+    border-top-left-radius: 10px; 
+    border-bottom-left-radius: 10px; 
+}
+
+tr th:last-child { 
+    border-top-right-radius: 10px; 
+    border-bottom-right-radius: 10px; 
+}
+
+tr td:first-child { 
+    border-top-left-radius: 10px; 
+    border-bottom-left-radius: 10px; 
+}
+
+tr td:last-child { 
+    border-top-right-radius: 10px; 
+    border-bottom-right-radius: 10px; 
+}
+
+
+.tableContainer{
+    margin-top: 100px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #000;
+}
+
+table {
+    display: block ;
+    width: 800px;
+    margin: auto;
+    height: 350px; 
+    overflow-y: scroll;
+    border-collapse: collapse;
+}
+
+td, th {
+    padding: 4px 15px 4px 15px;
+}
+
+tr:nth-child(even) {
+    background-color: #B3C4FF;
+}
+  
+tr:nth-child(odd) {
+    background-color: #EDEDED;
+}
+
+a {
+    color: #000;
+    text-decoration: none;
+}
