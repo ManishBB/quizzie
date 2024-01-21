@@ -1,0 +1,37 @@
+.dashboard{
+    flex: 8;
+    width: 80vw;
+    height: 100vh;
+    background-color: #EDEDED;
+    overflow: hidden;
+}
+
+.statsCardsContainer {
+    display: flex;
+    justify-content: space-around;
+    width: 1100px;
+    margin: auto;
+    margin-top: 80px;
+}
+
+.trendingQuizsContainer {
+    width: 1000px;
+    height: 350px;
+    margin: auto;
+    margin-top: 80px;
+}
+
+.trendingQuizsHeading {
+    font-weight: 600;
+    font-size: 30px;
+}
+
+.trendingQuizsLayout{
+    height: 270px;
+    margin-top: 15px;
+    display: flex;
+    flex-grow: 1;
+    flex-wrap: wrap;
+    overflow: auto;
+    column-gap: 35px;
+}

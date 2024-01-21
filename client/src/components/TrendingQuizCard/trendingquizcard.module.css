@@ -1,0 +1,40 @@
+.trendingQuizCard{
+    width: 180px;
+    height: 60px;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 5px 15px 5px 15px;
+    margin-bottom: 25px;
+}
+
+.quizData{
+    position: relative;
+}
+
+.quizTitle {
+    font-weight: 600;
+    font-size: 25px;
+    display: inline;
+}
+
+.quizImpressions {
+    position: absolute;
+    right: 0px;
+    top: -5px;
+    font-weight: 600;
+    font-size: 15px;
+    color: #FF5D01;
+    display: flex;
+    justify-content: center;
+}
+
+.viewsSvg{
+    height: 18px;
+    width: 18px;
+}
+
+.quizCreatedOn {
+    font-weight: 600;
+    font-size: 11px;
+    color: #60B84B;
+}
