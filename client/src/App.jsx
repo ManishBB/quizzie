@@ -1,15 +1,17 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
 import Home from './pages/Home/Home'
+import QnACompletion from './pages/QnACompletion/QnACompletion'
+import PollCompletion from './pages/PollCompletion/PollCompletion'
+import NotFound from './pages/NotFound'
+import AuthPage from './pages/AuthPage/AuthPage'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <Home />
+      <AuthPage />
     </>
   )
 }

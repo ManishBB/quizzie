@@ -1,15 +1,48 @@
-.authPage {
-    width: 100vw;
+.container{
     height: 100vh;
+    width: 100vw;
     background-color: #F2F2F2;
+    color: #474444;
+    overflow: hidden;
     display: flex;
+    align-items: center;
     justify-content: center;
+}
+
+.formContainer {
+    height: 600px;
+    width: 1000px;
+    background-color: #FFF;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
     align-items: center;
 }
 
-.container{
-    height: 600px;
-    width: 1000px;
+.logo {
+    font-family: 'Jomhuria';
+    text-align: center;
+    font-size: 100px;
+    font-weight: 400;
+}
+
+.tabButtons {
+    width: 450px;
+    margin: auto;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+button {
+    height: 35px;
+    width: 200px;
     border-radius: 15px;
-    background-color: #FFFFFF;
+    color: #474444;
+    background-color: #FFF;
+    font-family: 'Poppins';
+    border: 0px solid transparent;
+    font-size: 20px;
+    font-weight: 600;
 }

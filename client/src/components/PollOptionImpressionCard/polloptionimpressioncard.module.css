@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FFF;
+    width: 175px;
+    height: 90px;
+    border-radius: 5px;
+}
+
+.wrapper{
+    height: 90px;
+    display: flex;
+    align-items: baseline;
+}
+
+.impressionCount {
+    font-size: 30px;
+    font-weight: 600;
+    margin-right: 20px;
+    margin-top: 20px;
+}
+
+.impressionData {
+    position: relative;
+    top: -5px;
+    font-size: 14px;
+    font-weight: 600;
+}

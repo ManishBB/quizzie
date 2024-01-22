@@ -1,0 +1,45 @@
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.formLabel {
+    display: block;
+    width: 200px;
+    text-align: right;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 5px 20px 0 5px;
+}
+
+.inputDiv {
+    width: 600px;
+    margin-bottom: 25px;
+    display: flex;
+    justify-content: space-between;
+}
+
+input {
+    height: 40px;
+    width: 380px;
+    background-color: #F4F4F4;
+    border: transparent;
+    border-radius: 10px 10px 0 0;
+    font-family: 'Poppins';
+    font-weight: 500;
+    font-size: large;
+    padding: 0 10px 0 10px;
+}
+
+.signupButton {
+    height: 40;
+    width: 275;
+    border-radius: 8px;
+    color: #474444;
+    background-color: #A9BCFF;
+    font-family: 'Poppins';
+    border: 0px solid transparent;
+    font-size: 20px;
+    font-weight: 600;
+}

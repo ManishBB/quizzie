@@ -1,0 +1,27 @@
+.container {
+    display: block;
+    background-color: aqua;
+    width: 250px;
+    height: 90px;
+    background-color: #FFF;
+    border-radius: 5px;
+}
+
+.impressionCount {
+    font-size: 30px;
+    font-weight: 600;
+    display: block;
+    text-align: center;
+    margin: auto;
+    position: relative;
+    top: 10px;
+}
+
+.impressionData {
+    display: block;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 600;
+    position: relative;
+    bottom: 10px;
+}

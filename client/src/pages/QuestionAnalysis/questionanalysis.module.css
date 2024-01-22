@@ -1,0 +1,62 @@
+.container {
+    flex: 8;
+    width: 80vw;
+    height: 100vh;
+    background-color: #EDEDED;
+    overflow: hidden;
+}
+
+.metadataContainer {
+    color: #FF5D01;
+    font-size: 15px;
+    font-weight: 600;
+    position: absolute;
+    top: 50px;
+    right: 80px;
+}
+
+.wrapper{
+    width: 850px;
+    height: 100%;
+    margin: auto;
+    overflow: scroll;
+    overflow-x: hidden;
+
+}
+
+::-webkit-scrollbar {
+    width: 1px;  /* Remove scrollbar space */
+    margin-left: 5px    ;
+    border-radius: 5px;
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+/* Optional: show position indicator in red */
+::-webkit-scrollbar-thumb {
+    background: gray;
+}
+
+.heading {
+    display: block;
+    color: #5076FF;
+    font-size: 40px;
+    font-weight: 600;
+    margin: 50px 0 20px 0;
+}
+
+.question{
+    display: block;
+    color: #000000;
+    font-size: 30px;
+    font-weight: 500;
+    margin: 20px 0 20px 0;
+}
+
+.optionsTab {
+    display: flex;
+    justify-content: space-between;
+}
+
+.horizontalDivider {
+    border: 2px solid #D7D7D7;
+    margin: 20px 0 20px 0;
+}
