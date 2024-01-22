@@ -21,8 +21,8 @@ function AuthPage() {
           <p>QUIZZIE</p>
         </div>
         <div className={styles.tabButtons}>
-          <button onClick={handleSignupClick}>Signup</button>
-          <button onClick={handleLoginClick}>Login</button>
+          <button onClick={handleSignupClick} className={isSignup ? styles.buttonShadow: ''}>Signup</button>
+          <button onClick={handleLoginClick} className={isSignup ? '' : styles.buttonShadow}>Login</button>
         </div>
         <div className={styles.formContainer}>
           {isSignup ? <SignUp /> : <Login />}
