@@ -1,0 +1,13 @@
+.optionContainer {
+    height: 130px;
+    width: 320px;
+    background-color: #F0F0F0;
+    border: 5px solid #5076FF;
+    border-radius: 10px;
+}
+
+.imageOption{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
