@@ -1,27 +1,27 @@
-import { creatSlice } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
     quizStats: null,
     trendingQuizzes: null,
     createdQuizzes: null,
-}
+};
 
-const quizSlice = creatSlice({
-    name: 'quizzes',
+const quizSlice = createSlice({
+    name: "quizzes",
     initialState,
     reducers: {
         getStats: (state, action) => {
-            state.quizStats = action.payload
+            state.quizStats = action.payload;
         },
         getTrendingQizzes: (state, action) => {
-            state.trendingQuizzes = action.payload
+            state.trendingQuizzes = action.payload;
         },
         getCreatedQuizzes: (state, action) => {
-            state.createdQuizzes = action.payload
-        }
-    }
-})
+            state.createdQuizzes = action.payload;
+        },
+    },
+});
 
 export const { login, logout } = quizSlice.actions;
 
-export default quizSlice.reducer
+export default quizSlice.reducer;
