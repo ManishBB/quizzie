@@ -5,7 +5,33 @@
     flex-direction: row;
     color: #474444;
     overflow: hidden;
-
 }
 
+.sidebar {
+    flex: 1;
+    width: 15vw;
+    height: 100vh;
+    background-color: #ffffff;
+    padding: 0 20px 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+}
 
+.title {
+    font-family: Jomhuria;
+    font-size: 50px;
+}
+
+.sidebarMenu {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.sidebarBtn {
+    font-weight: 600;
+    cursor: pointer;
+}

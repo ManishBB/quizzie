@@ -1,69 +1,39 @@
 import axios from "axios";
 
-export const getQuiz = async () => {
+const BASE_URL = "http://localhost:8000/api/v1";
+
+export const testRoute = async () => {
     try {
-      const response = await axios.get('/api/quiz');
-      return response.data;
+        axios
+            .get(`${BASE_URL}/quiz/get-quiz/65aa646261fac643a8cfa6c0`)
+            .then((response) => {
+                return response.data;
+            });
     } catch (error) {
-      throw new Error('Failed to fetch quiz');
-    }
-  };
-  
-  export const createQuiz = async (quizData) => {
-    try {
-      const response = await axios.post('/api/quiz', quizData);
-      return response.data;
-    } catch (error) {
-      throw new Error('Failed to create quiz');
+        throw new Error("Failed to fetch quiz");
     }
 };
 
-
-const QuizPage = () => {
-    const [quiz, setQuiz] = useState(null);
-  
-    useEffect(() => {
-      const fetchQuiz = async () => {
-        try {
-          const quizData = await api.getQuiz();
-          setQuiz(quizData);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-  
-      fetchQuiz();
-    }, []);
-  
-    // Rest of the component code
-  };
-
-
-  const fetchQuiz = async () => {
+export const createQuiz = async (quizData) => {
     try {
-      const quizData = await api.getQuiz();
-      setQuiz(quizData);
-      dispatch(updateQuiz(quizData)); // Dispatch the updated quiz data to the Redux store
+        const response = await axios.post("/api/quiz", quizData);
+        return response.data;
     } catch (error) {
-      console.error(error);
+        throw new Error("Failed to create quiz");
     }
-  };
+};
 
-  const postData = async (data) => {
-    try {
-      const response = await axios.post('/api/endpoint', data, {
-        headers: {
-          'Authorization': `Bearer ${getAccessTokenFromCookies()}`,
-        },
-      });
-      return response.data;
-    } catch (error) {
-      throw new Error('Failed to post data');
-    }
-  };
-  
-  const getAccessTokenFromCookies = () => {
+const getAccessTokenFromCookies = () => {
     // Implement your logic to retrieve the access token from cookies
     // and return it here
-  };
-  
+};
+
+export const getUser = (userId) => {
+    return axios.get(`${BASE_URL}/users/${userId}`);
+};
+
+export const createUser = (userData) => {
+    return axios.post(`${BASE_URL}/users`, userData);
+};
+
+// Add more API call functions as needed

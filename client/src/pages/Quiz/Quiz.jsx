@@ -13,7 +13,7 @@ function Quiz() {
                 <span className={styles.timer}>00:10s</span>
             </div>
             <div className={styles.questionDiv}>
-                <p className={styles.question}>To be or not to be? That is the question?</p>
+                <p className={styles.question}>What do think of often nowadays?</p>
                 <div className={styles.optionsDiv}>
                     <TextImageOptionCard />
                     <TextImageOptionCard />

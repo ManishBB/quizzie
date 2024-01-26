@@ -1,8 +1,8 @@
-.sidebar{
+.sidebar {
     flex: 1;
     width: 15vw;
     height: 100vh;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     padding: 0 20px 0 20px;
     display: flex;
     flex-direction: column;
@@ -15,7 +15,7 @@
     font-size: 50px;
 }
 
-.sidebarMenu{
+.sidebarMenu {
     height: 200px;
     display: flex;
     flex-direction: column;
@@ -24,4 +24,5 @@
 
 .sidebarBtn {
     font-weight: 600;
+    cursor: pointer;
 }
