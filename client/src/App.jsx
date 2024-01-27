@@ -9,7 +9,6 @@ import AuthPage from "./pages/AuthPage/AuthPage";
 import Quiz from "./pages/Quiz/Quiz";
 import DeleteModal from "./components/DeleteModal/DeleteModal";
 import QuizCreator from "./pages/QuizCreator";
-import { testRoute } from "./utils/ApiUtils";
 import { Navigate, Outlet, redirect } from "react-router-dom";
 import {
     Route,
@@ -27,15 +26,10 @@ import { login } from "./store/authSlice";
 function App() {
     const dispatch = useDispatch();
 
-    let userData = null;
-
     useEffect(() => {
-        userData = JSON.parse(localStorage.getItem("userData"));
-        dispatch(login({ userData }));
-        console.log(userData);
+        const userData = JSON.parse(localStorage.getItem("userData"));
+        dispatch(login({ ...userData }));
     }, []);
-
-    console.log(localStorage.getItem("isLoggedIn"));
 
     const isUserLoggedIn =
         useSelector((state) => state.auth.status) ||

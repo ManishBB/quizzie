@@ -13,11 +13,20 @@ const quizSlice = createSlice({
         getStats: (state, action) => {
             state.quizStats = action.payload;
         },
+        removeStats: (state, action) => {
+            state.quizStats = null;
+        },
         getTrendingQizzes: (state, action) => {
             state.trendingQuizzes = action.payload;
         },
+        removeTrendingQuizzes: (state, action) => {
+            state.trendingQuizzes = null;
+        },
         getCreatedQuizzes: (state, action) => {
             state.createdQuizzes = action.payload;
+        },
+        removeCreatedQuizzes: (state, action) => {
+            state.createdQuizzes = null;
         },
     },
 });

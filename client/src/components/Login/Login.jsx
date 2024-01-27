@@ -33,13 +33,20 @@ function Login() {
             );
             const { data } = response.data;
 
-            console.log(data);
+            console.log(response.data.accessToken);
 
             // Dispatch action to store user data in Redux
-            dispatch(login({ data }));
+            dispatch(login(response.data.loggedInUser));
 
             localStorage.setItem("isLoggedIn", "true");
-            localStorage.setItem("userData", JSON.stringify(data));
+            localStorage.setItem(
+                "userData",
+                JSON.stringify(response.data.loggedInUser)
+            );
+            localStorage.setItem(
+                "accessToken",
+                JSON.stringify(response.data.accessToken)
+            );
 
             navigate("/");
 

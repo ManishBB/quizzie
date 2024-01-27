@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import styles from "./home.module.css";
 import Sidebar from "../../components/Sidebar/Sidebar";
 import Dashboard from "../Dashboard/Dashboard";
@@ -17,7 +17,11 @@ import {
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
 
 function Home() {
-    const navigate = useNavigate();
+    useEffect(() => {
+        // const quizStats =
+        // const trendingQuizzes =
+        // const createdQuizzes =
+    }, []);
 
     const [isCreateQuizModalActive, setIsCreateQuizModalActive] =
         useState(false);

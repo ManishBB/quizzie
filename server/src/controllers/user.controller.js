@@ -1,88 +1,89 @@
-import { User } from "../models/user.model.js"
-import { ApiError } from "../utils/ApiError.js"
-import { ApiResponse } from "../utils/ApiResponse.js"
+import { User } from "../models/user.model.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 
 const generateAccessToken = async (userId) => {
     try {
-        
         const user = await User.findById(userId);
 
-        const accessToken = user.generateAccessToken()
+        const accessToken = user.generateAccessToken();
 
-        return {accessToken}
-
+        return { accessToken };
     } catch (error) {
-        throw new ApiError(500, "Something went wrong")
+        throw new ApiError(500, "Something went wrong");
     }
-}
+};
 
 const registerUser = async (req, res) => {
-    const { name, email, password} = req.body
+    const { name, email, password } = req.body;
 
-    if([name, email, password].some( (field) => field.trim() === "")) {
-        throw new ApiError(400, "All fields are required")
+    if ([name, email, password].some((field) => field.trim() === "")) {
+        throw new ApiError(400, "All fields are required");
     }
 
-    const existedUser = await User.findOne({email: email})
+    const existedUser = await User.findOne({ email: email });
 
-    if( existedUser ) throw new ApiError(409, "User already exists")
+    if (existedUser) throw new ApiError(409, "User already exists");
 
     const newUser = await User.create({
         name,
         email,
-        password
-    })
+        password,
+    });
 
-    const createdUser = await User.findById(newUser._id).select("-password -refreshToken")
+    const createdUser = await User.findById(newUser._id).select(
+        "-password -refreshToken"
+    );
 
-    if(!createdUser) throw new ApiError(500, "Something went wrong while creating a new user")
+    if (!createdUser)
+        throw new ApiError(
+            500,
+            "Something went wrong while creating a new user"
+        );
 
     return res
-    .status(200)
-    .json(
-        new ApiResponse(200, createdUser, "User registered successfully")
-    )
-}
+        .status(200)
+        .json(
+            new ApiResponse(200, createdUser, "User registered successfully")
+        );
+};
 
 const loginUser = async (req, res) => {
+    const { email, password } = req.body;
 
-    const {email, password} = req.body
+    if (!email || !password)
+        throw new ApiError(403, "Invalid email or password");
 
-    if(!email || !password) throw new ApiError(403, "Invalid email or password")
+    const user = await User.findOne({ email: email });
 
-    const user = await User.findOne({email: email})
+    if (!user) throw new ApiError(404, "User not found");
 
-    if(!user) throw new ApiError(404, "User not found")
+    const isPasswordCorrect = await user.isPasswordCorrect(password);
 
-    const isPasswordCorrect = await user.isPasswordCorrect(password)
+    if (!isPasswordCorrect) throw new ApiError(401, "Invalid credentials");
 
-    if(!isPasswordCorrect) throw new ApiError(401, "Invalid credentials")
+    const { accessToken } = await generateAccessToken(user._id);
 
-    const {accessToken} = await generateAccessToken(user._id)
-
-    const loggedInUser = await User.findOne(user._id).select("-password -refreshToken")
+    const loggedInUser = await User.findOne(user._id).select(
+        "-password -refreshToken"
+    );
 
     const options = {
         httpOnly: true,
-        secure: true
-    }
+        secure: true,
+    };
 
-    return res
-    .status(200)
-    .cookie("accessToken", accessToken, options)
-    .json(
-        new ApiResponse(200, loggedInUser, "User logged in successfully")
-    )
-}
+    return res.status(200).cookie("accessToken", accessToken, options).json({
+        loggedInUser,
+        accessToken: accessToken,
+    });
+};
 
 // TODO: logout route
-// TODO: 
-// TODO: 
-// TODO: 
-// TODO: 
-// TODO: 
+// TODO:
+// TODO:
+// TODO:
+// TODO:
+// TODO:
 
-export { 
-    registerUser, 
-    loginUser
-}
+export { registerUser, loginUser };
