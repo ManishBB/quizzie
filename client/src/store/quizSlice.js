@@ -10,7 +10,7 @@ const quizSlice = createSlice({
     name: "quizzes",
     initialState,
     reducers: {
-        getStats: (state, action) => {
+        getQuizStats: (state, action) => {
             state.quizStats = action.payload;
         },
         removeStats: (state, action) => {
@@ -31,6 +31,13 @@ const quizSlice = createSlice({
     },
 });
 
-export const { login, logout } = quizSlice.actions;
+export const {
+    getQuizStats,
+    getTrendingQizzes,
+    getCreatedQuizzes,
+    removeStats,
+    removeTrendingQuizzes,
+    removeCreatedQuizzes,
+} = quizSlice.actions;
 
 export default quizSlice.reducer;

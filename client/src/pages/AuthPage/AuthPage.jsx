@@ -14,10 +14,6 @@ function AuthPage() {
         setIsSignup(false);
     };
 
-    useEffect(() => {
-        // Add an empty dependency array to ensure this effect runs only once
-    }, []);
-
     return (
         <div className={styles.container}>
             <div className={styles.formContainer}>

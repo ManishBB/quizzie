@@ -1,71 +1,65 @@
 import axios from "axios";
-import { useSelector } from "react-redux";
+import conf from "../config/config";
+import {
+    getQuizStats,
+    getTrendingQizzes,
+    getCreatedQuizzes,
+} from "../store/quizSlice";
 
 const BASE_URL = "http://localhost:8000/api/v1";
 
-export const getQuizStats = async () => {
+export const getUserQuizStats = async () => {
     const accessToken = localStorage.getItem("accessToken");
-    console.log(accessToken);
 
     try {
         const response = await axios.get(
             `${conf.baseUrl}/quiz/dashboard-stats`,
             {
                 headers: {
-                    Authorization: `Bearer ${accessToken}`,
+                    Authorization: `Bearer ${JSON.parse(accessToken)}`,
                 },
             }
         );
-        const { data } = response.data;
-
-        console.log(data);
+        console.log("after call");
+        return response.data;
 
         // Dispatch action to store user data in Redux
-        dispatch(getQuizStats({ data }));
     } catch (error) {
         alert("Something went wrong while fetching quiz stats!");
     }
 };
 
-const getTrendingQuizzes = async (email) => {
+export const getUserTrendingQuizzes = async (email) => {
     const accessToken = localStorage.getItem("accessToken");
 
     try {
-        const response = await axios.post(`${conf.baseUrl}/user/login-user`, {
-            email,
-            password,
-        });
-        const { data } = response.data;
-
-        console.log(data);
-
-        // Dispatch action to store user data in Redux
-        dispatch(login({ data }));
-
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("userData", JSON.stringify(data));
+        const response = await axios.get(
+            `${conf.baseUrl}/quiz/trending-quizzes`,
+            {
+                headers: {
+                    Authorization: `Bearer ${JSON.parse(accessToken)}`,
+                },
+            }
+        );
+        return response.data;
     } catch (error) {
         alert("Something went wrong while fetching trending quizzes!");
     }
 };
 
-const getCreatedQuizzes = async (email) => {
+export const getUserCreatedQuizzes = async (email) => {
     const accessToken = localStorage.getItem("accessToken");
 
     try {
-        const response = await axios.post(`${conf.baseUrl}/user/login-user`, {
-            email,
-            password,
-        });
-        const { data } = response.data;
-
-        console.log(data);
-
-        // Dispatch action to store user data in Redux
-        dispatch(login({ data }));
-
-        localStorage.setItem("isLoggedIn", "true");
-        localStorage.setItem("userData", JSON.stringify(data));
+        const response = await axios.get(
+            `${conf.baseUrl}/quiz/get-all-quizzes`,
+            {
+                headers: {
+                    Authorization: `Bearer ${JSON.parse(accessToken)}`,
+                },
+            }
+        );
+        return response.data;
     } catch (error) {
         alert("Something went wrong while fetching created quizzes!");
     }

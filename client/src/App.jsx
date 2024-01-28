@@ -22,13 +22,35 @@ import Dashboard from "./pages/Dashboard/Dashboard";
 import Analysis from "./pages/Analysis/Analysis";
 import QuestionAnalysis from "./pages/QuestionAnalysis/QuestionAnalysis";
 import { login } from "./store/authSlice";
+import {
+    getUserCreatedQuizzes,
+    getUserQuizStats,
+    getUserTrendingQuizzes,
+} from "./utils/ApiUtils";
+import {
+    getCreatedQuizzes,
+    getQuizStats,
+    getTrendingQizzes,
+} from "./store/quizSlice";
 
 function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
+        const fetchQuizData = async () => {
+            const statJson = await getUserQuizStats();
+            const trendingJson = await getUserTrendingQuizzes();
+            const createdJson = await getUserCreatedQuizzes();
+
+            dispatch(getQuizStats(statJson.data));
+            dispatch(getTrendingQizzes(trendingJson.data));
+            dispatch(getCreatedQuizzes(createdJson.data));
+        };
+
         const userData = JSON.parse(localStorage.getItem("userData"));
         dispatch(login({ ...userData }));
+
+        fetchQuizData();
     }, []);
 
     const isUserLoggedIn =

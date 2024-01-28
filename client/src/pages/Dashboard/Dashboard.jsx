@@ -2,14 +2,8 @@ import React, { useEffect } from "react";
 import styles from "./dashboard.module.css";
 import StatCard from "../../components/StatCard/StatCard";
 import TrendingQuizCard from "../../components/TrendingQuizCard/TrendingQuizCard";
-import { getQuizStats } from "../../utils/ApiUtils";
-import { useSelector } from "react-redux";
 
 function Dashboard() {
-    useEffect(() => {
-        getQuizStats();
-    }, []);
-
     return (
         <div className={styles.dashboard}>
             <div className={styles.statsCardsContainer}>

@@ -17,12 +17,6 @@ import {
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
 
 function Home() {
-    useEffect(() => {
-        // const quizStats =
-        // const trendingQuizzes =
-        // const createdQuizzes =
-    }, []);
-
     const [isCreateQuizModalActive, setIsCreateQuizModalActive] =
         useState(false);
     const [isDeleteQuizModalActive, setDeleteQuizModalActive] = useState(false);
