@@ -3,41 +3,32 @@ import styles from "./analysis.module.css";
 import EditSVG from "../../assets/edit.svg";
 import DeleteSVG from "../../assets/delete.svg";
 import ShareSVG from "../../assets/share.svg";
-import { useOutletContext } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useNavigate, useOutletContext } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getDeleteQuizId, getEditQuizId } from "../../store/metadataSlice";
 
 function Analysis() {
-    const [isDeleteQuizModalActive, setDeleteQuizModalActive] =
-        useOutletContext();
+    const [
+        isDeleteQuizModalActive,
+        setDeleteQuizModalActive,
+        isCreateQuizModalActive,
+        setIsCreateQuizModalActive,
+    ] = useOutletContext();
+
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const quizzesData = useSelector((state) => state.quizzes.createdQuizzes);
 
-    console.log(quizzesData);
-
-    const quizAnalysisData = [
-        {
-            srNo: 1,
-            quiz: "Quiz 1",
-            createdOn: "2021-01-01",
-            impressions: 100,
-            quizLink: "https://manishbhamare.live",
-        },
-        {
-            srNo: 2,
-            quiz: "Quiz 2",
-            createdOn: "2021-02-01",
-            impressions: 150,
-            quizLink: "https://manishbhamare.live",
-        },
-        // Add more quiz analysis data here...
-    ];
-
     const handleEditClick = (quizId) => {
         // Handle edit button click logic here...
+        dispatch(getEditQuizId(quizId));
+        setIsCreateQuizModalActive(true);
     };
 
     const handleDeleteClick = (quizId) => {
         // Handle delete button click logic here...
+        dispatch(getDeleteQuizId(quizId));
         setDeleteQuizModalActive(true);
         console.log(isDeleteQuizModalActive);
     };
@@ -48,6 +39,7 @@ function Analysis() {
 
     const handleQuizAnalysisClick = (quizId) => {
         // Handle quiz analysis button click logic here...
+        navigate(`/question-analysis/${quizId}`, { state: quizId });
     };
 
     return (
@@ -68,7 +60,7 @@ function Analysis() {
                         </tr>
                     </thead>
                     <tbody>
-                        {quizzesData.map((quiz, index) => (
+                        {quizzesData?.map((quiz, index) => (
                             <tr key={index}>
                                 <td>{index}</td>
                                 <td>{quiz.quizName}</td>
@@ -105,7 +97,12 @@ function Analysis() {
                                     />
                                 </td>
                                 <td>
-                                    <a href={quiz.quizLink}>
+                                    <a
+                                        href={quiz.quizLink}
+                                        onClick={() =>
+                                            handleQuizAnalysisClick(quiz._id)
+                                        }
+                                    >
                                         Question Wise Analysis
                                     </a>
                                 </td>

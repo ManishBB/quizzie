@@ -25,7 +25,12 @@ function Home() {
         <div className={styles.home}>
             <Sidebar setIsCreateQuizModalActive={setIsCreateQuizModalActive} />
             <Outlet
-                context={[isDeleteQuizModalActive, setDeleteQuizModalActive]}
+                context={[
+                    isDeleteQuizModalActive,
+                    setDeleteQuizModalActive,
+                    isCreateQuizModalActive,
+                    setIsCreateQuizModalActive,
+                ]}
             />
             {isCreateQuizModalActive && (
                 <CreateQuizModal

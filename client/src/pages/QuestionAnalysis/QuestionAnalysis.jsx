@@ -1,72 +1,81 @@
-import React from 'react'
-import styles from './questionanalysis.module.css'
-import QnaOptionImpressioncard from '../../components/QnAOptionImpressionCard/QnaOptionImpressioncard'
-import PollOptionImpressionCard from '../../components/PollOptionImpressionCard/PollOptionImpressionCard'
+import React, { useEffect, useState } from "react";
+import styles from "./questionanalysis.module.css";
+import QnaOptionImpressioncard from "../../components/QnAOptionImpressionCard/QnaOptionImpressioncard";
+import PollOptionImpressionCard from "../../components/PollOptionImpressionCard/PollOptionImpressionCard";
+import { useLocation } from "react-router-dom";
+import { getQuizImpressionAnalysis } from "../../utils/ApiUtils";
 
 function QuestionAnalysis() {
-  return (
-    <div className={styles.container}>
-        <p className={styles.metadataContainer}>
-          Created on : 04 Sep, 2023
-          <br />
-          Impressions : 667
-        </p>
+    const location = useLocation();
+    const [quizData, setQuizData] = useState(null);
 
-        <div className={styles.wrapper}>        
-            <p className={styles.heading}>Quiz 2 Question Analysis</p>
+    useEffect(() => {
+        const quizId = location?.state;
+        const fetchQuizData = async () => {
+            const data = await getQuizImpressionAnalysis(quizId);
+            data.data.quizType = "poll";
+            setQuizData(data.data);
+        };
 
-            <div className={styles.questionContainer}>
-                <p className={styles.question}>Q.1 Question place holder for analysis ?</p>
-                <div className={styles.optionsTab}>
-                    <QnaOptionImpressioncard/>
-                    <QnaOptionImpressioncard/>
-                    <QnaOptionImpressioncard/>
-                </div>
-                <hr className={styles.horizontalDivider} />
-            </div>
-            <div className={styles.questionContainer}>
-                <p className={styles.question}>Q.1 Question place holder for analysis ?</p>
-                <div className={styles.optionsTab}>
-                    <PollOptionImpressionCard />
-                    <PollOptionImpressionCard />
-                    <PollOptionImpressionCard />
-                    <PollOptionImpressionCard />
-                </div>
-                <hr className={styles.horizontalDivider} />
-            </div>
-            <div className={styles.questionContainer}>
-                <p className={styles.question}>Q.1 Question place holder for analysis ?</p>
-                <div className={styles.optionsTab}>
-                    <PollOptionImpressionCard />
-                    <PollOptionImpressionCard />
-                    <PollOptionImpressionCard />
-                    <PollOptionImpressionCard />
-                </div>
-                <hr className={styles.horizontalDivider} />
-            </div>
-            <div className={styles.questionContainer}>
-                <p className={styles.question}>Q.1 Question place holder for analysis ?</p>
-                <div className={styles.optionsTab}>
-                    <PollOptionImpressionCard />
-                    <PollOptionImpressionCard />
-                    <PollOptionImpressionCard />
-                    <PollOptionImpressionCard />
-                </div>
-                <hr className={styles.horizontalDivider} />
-            </div>
-            <div className={styles.questionContainer}>
-                <p className={styles.question}>Q.1 Question place holder for analysis ?</p>
-                <div className={styles.optionsTab}>
-                    <PollOptionImpressionCard />
-                    <PollOptionImpressionCard />
-                    <PollOptionImpressionCard />
-                    <PollOptionImpressionCard />
-                </div>
-                <hr className={styles.horizontalDivider} />
+        fetchQuizData();
+    }, []);
+
+    console.log(quizData);
+
+    return (
+        <div className={styles.container}>
+            <p className={styles.metadataContainer}>
+                Created on : 04 Sep, 2023
+                <br />
+                Impressions : {quizData?.impressions}
+            </p>
+
+            <div className={styles.wrapper}>
+                <p className={styles.heading}>{quizData?.quizName}</p>
+
+                {quizData?.questions?.map((question, index) => (
+                    <div className={styles.questionContainer}>
+                        <p className={styles.question}>
+                            Q.{index + 1} {question.questionTitle} ?
+                        </p>
+                        {quizData?.quizType === "qna" ? (
+                            <div className={styles.optionsTab}>
+                                <QnaOptionImpressioncard
+                                    impressions={
+                                        question.qnaCorrectAnswerImpressions +
+                                        question.qnaWrongAnswerImpressions
+                                    }
+                                    text={"people Attempted the question"}
+                                />
+                                <QnaOptionImpressioncard
+                                    impressions={
+                                        question.qnaCorrectAnswerImpressions
+                                    }
+                                    text={"people answered correctly"}
+                                />
+                                <QnaOptionImpressioncard
+                                    impressions={
+                                        question.qnaWrongAnswerImpressions
+                                    }
+                                    text={"people answered incorrectly"}
+                                />
+                            </div>
+                        ) : (
+                            <div className={styles.optionsTab}>
+                                {question.options.map((option, i) => (
+                                    <PollOptionImpressionCard
+                                        impressions={option.impressions}
+                                        optionNumber={i + 1}
+                                    />
+                                ))}
+                            </div>
+                        )}
+                        <hr className={styles.horizontalDivider} />
+                    </div>
+                ))}
             </div>
         </div>
-    </div>
-  )
+    );
 }
 
-export default QuestionAnalysis
+export default QuestionAnalysis;

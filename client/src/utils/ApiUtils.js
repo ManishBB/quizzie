@@ -13,7 +13,7 @@ export const getUserQuizStats = async () => {
                 },
             }
         );
-        console.log("after call");
+
         return response.data;
     } catch (error) {
         alert("Something went wrong while fetching quiz stats!");
@@ -53,5 +53,17 @@ export const getUserCreatedQuizzes = async (email) => {
         return response.data;
     } catch (error) {
         alert("Something went wrong while fetching created quizzes!");
+    }
+};
+
+export const getQuizImpressionAnalysis = async (quizId) => {
+    try {
+        const response = await axios.get(
+            `${conf.baseUrl}/quiz/get-quiz/${quizId}`
+        );
+
+        return response.data;
+    } catch (error) {
+        alert("Something went wrong while fetching quiz stats!");
     }
 };

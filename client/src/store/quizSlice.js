@@ -3,7 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     quizStats: null,
     trendingQuizzes: null,
-    createdQuizzes: null,
 };
 
 const quizSlice = createSlice({

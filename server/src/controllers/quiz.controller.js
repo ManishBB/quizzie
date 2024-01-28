@@ -126,8 +126,6 @@ const getQuizById = async (req, res) => {
 
     const quiz = await Quiz.findById(quizId);
 
-    await updateQuizImpressions(quizId);
-
     if (!quiz)
         throw new ApiError(500, "Something went wrong while getting quiz");
 
