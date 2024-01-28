@@ -1,47 +1,44 @@
 import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import styles from "./dashboard.module.css";
 import StatCard from "../../components/StatCard/StatCard";
 import TrendingQuizCard from "../../components/TrendingQuizCard/TrendingQuizCard";
 
 function Dashboard() {
+    const quizStats = useSelector((state) => state.quizzes.quizStats);
+    const trendingQuizzes = useSelector(
+        (state) => state.quizzes.trendingQuizzes
+    );
+    console.log(quizStats, trendingQuizzes);
+
     return (
         <div className={styles.dashboard}>
             <div className={styles.statsCardsContainer}>
-                <StatCard />
-                <StatCard />
-                <StatCard />
+                <StatCard
+                    color={"#FF5D01"}
+                    data={quizStats?.totalQuizzes}
+                    message={"Quiz Created"}
+                />
+                <StatCard
+                    color={"#60B84B"}
+                    data={quizStats?.numberOfQuestions}
+                    message={"Questions Created"}
+                />
+                <StatCard
+                    color={"#5076FF"}
+                    data={quizStats?.totalImpressions}
+                    message={"Total Impressions"}
+                />
             </div>
             <div className={styles.trendingQuizsContainer}>
                 <p className={styles.trendingQuizsHeading}>Trending Quizs</p>
                 <div className={styles.trendingQuizsLayout}>
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
-                    <TrendingQuizCard />
+                    {trendingQuizzes?.map((quiz) => (
+                        <TrendingQuizCard
+                            name={quiz.quizName}
+                            impressions={quiz.impressions}
+                        />
+                    ))}
                 </div>
             </div>
         </div>

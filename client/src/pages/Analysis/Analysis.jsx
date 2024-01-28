@@ -4,10 +4,15 @@ import EditSVG from "../../assets/edit.svg";
 import DeleteSVG from "../../assets/delete.svg";
 import ShareSVG from "../../assets/share.svg";
 import { useOutletContext } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Analysis() {
     const [isDeleteQuizModalActive, setDeleteQuizModalActive] =
         useOutletContext();
+
+    const quizzesData = useSelector((state) => state.quizzes.createdQuizzes);
+
+    console.log(quizzesData);
 
     const quizAnalysisData = [
         {
@@ -63,19 +68,19 @@ function Analysis() {
                         </tr>
                     </thead>
                     <tbody>
-                        {quizAnalysisData.map((data) => (
-                            <tr key={data.srNo}>
-                                <td>{data.srNo}</td>
-                                <td>{data.quiz}</td>
-                                <td>{data.createdOn}</td>
-                                <td>{data.impressions}</td>
+                        {quizzesData.map((quiz, index) => (
+                            <tr key={index}>
+                                <td>{index}</td>
+                                <td>{quiz.quizName}</td>
+                                <td>{"11 Sep. 2020"}</td>
+                                <td>{quiz.impressions}</td>
                                 <td>
                                     <img
                                         className={styles.svgIcon}
                                         src={EditSVG}
                                         alt="Edit SVG"
                                         onClick={() =>
-                                            handleEditClick(data.quiz)
+                                            handleEditClick(quiz._id)
                                         }
                                     />
                                 </td>
@@ -84,7 +89,9 @@ function Analysis() {
                                         className={styles.svgIcon}
                                         src={DeleteSVG}
                                         alt="Delete SVG"
-                                        onClick={handleDeleteClick}
+                                        onClick={() =>
+                                            handleDeleteClick(quiz._id)
+                                        }
                                     />
                                 </td>
                                 <td>
@@ -93,12 +100,12 @@ function Analysis() {
                                         src={ShareSVG}
                                         alt="Share SVG"
                                         onClick={() =>
-                                            handleShareClick(data.quiz)
+                                            handleShareClick(quiz._id)
                                         }
                                     />
                                 </td>
                                 <td>
-                                    <a href={data.quizLink}>
+                                    <a href={quiz.quizLink}>
                                         Question Wise Analysis
                                     </a>
                                 </td>

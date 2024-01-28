@@ -1,12 +1,5 @@
 import axios from "axios";
 import conf from "../config/config";
-import {
-    getQuizStats,
-    getTrendingQizzes,
-    getCreatedQuizzes,
-} from "../store/quizSlice";
-
-const BASE_URL = "http://localhost:8000/api/v1";
 
 export const getUserQuizStats = async () => {
     const accessToken = localStorage.getItem("accessToken");
@@ -22,8 +15,6 @@ export const getUserQuizStats = async () => {
         );
         console.log("after call");
         return response.data;
-
-        // Dispatch action to store user data in Redux
     } catch (error) {
         alert("Something went wrong while fetching quiz stats!");
     }
