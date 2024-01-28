@@ -3,6 +3,8 @@ import styles from "./analysis.module.css";
 import EditSVG from "../../assets/edit.svg";
 import DeleteSVG from "../../assets/delete.svg";
 import ShareSVG from "../../assets/share.svg";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useNavigate, useOutletContext } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getDeleteQuizId, getEditQuizId } from "../../store/metadataSlice";
@@ -35,6 +37,8 @@ function Analysis() {
 
     const handleShareClick = (quizId) => {
         // Handle share button click logic here...
+        navigator.clipboard.writeText(`http://localhost:5173/quiz/${quizId}`);
+        toast.success("Link copied to clipboard");
     };
 
     const handleQuizAnalysisClick = (quizId) => {
@@ -110,6 +114,19 @@ function Analysis() {
                         ))}
                     </tbody>
                 </table>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={2000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="light"
+                    transition:Bounce
+                />
             </div>
         </div>
     );

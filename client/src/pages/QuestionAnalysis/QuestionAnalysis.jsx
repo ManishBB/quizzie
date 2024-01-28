@@ -13,7 +13,6 @@ function QuestionAnalysis() {
         const quizId = location?.state;
         const fetchQuizData = async () => {
             const data = await getQuizImpressionAnalysis(quizId);
-            data.data.quizType = "poll";
             setQuizData(data.data);
         };
 
