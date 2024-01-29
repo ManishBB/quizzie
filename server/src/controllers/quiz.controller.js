@@ -31,16 +31,31 @@ const createQuiz = async (req, res) => {
         );
 };
 
-const updateQuizImpressions = async (quizId) => {
+const updateQuizImpressions = async (req, res) => {
     //updating quiz impressions every time user visits the quiz
-    await Quiz.findOneAndUpdate(
-        { _id: quizId },
-        {
-            $inc: {
-                impressions: 1,
-            },
-        }
-    );
+
+    try {
+        const data = await Quiz.findOneAndUpdate(
+            { _id: req.body.quizId },
+            {
+                $inc: {
+                    impressions: 1,
+                },
+            }
+        );
+
+        return res
+            .status(200)
+            .json(
+                new ApiResponse(
+                    200,
+                    data,
+                    "Quiz impression updated successfully"
+                )
+            );
+    } catch (error) {
+        console.log(error, error.message);
+    }
 };
 
 // TODO: Add email owner error check
@@ -277,6 +292,7 @@ export {
     getAllQuizzes,
     getTrendingQuizzes,
     getDashboardStats,
+    updateQuizImpressions,
     updatePollOptionImpression,
     updateQnaCorrectOptionImpression,
     updateQnaWrongOptionImpression,

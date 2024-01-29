@@ -4,6 +4,8 @@ import Quiz from "../Quiz/Quiz";
 import QnACompletion from "../QnACompletion/QnACompletion";
 import PollCompletion from "../PollCompletion/PollCompletion";
 import { getQuiz } from "../../utils/ApiUtils";
+import axios from "axios";
+import conf from "../../config/config";
 
 function QuizLayout() {
     const [quiz, setQuiz] = useState();
@@ -15,6 +17,9 @@ function QuizLayout() {
             const url = new URL(window.location.href);
             const quizId = url.pathname.split("/")[2];
             const quizData = await getQuiz(quizId);
+            await axios.patch(`${conf.baseUrl}/quiz/update-quiz-impression`, {
+                quizId: quizId,
+            });
             setQuiz(quizData.data);
         };
 
@@ -37,6 +42,7 @@ function QuizLayout() {
                     onNextQuestion={handleNextQuestion}
                     currentQuestionIndex={currentQuestionIndex}
                     setCorrectAnswers={setCorrectAnswers}
+                    quizType={quiz.quizType}
                 />
             ) : quiz?.quizType === "qna" ? (
                 <QnACompletion

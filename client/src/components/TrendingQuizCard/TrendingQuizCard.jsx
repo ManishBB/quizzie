@@ -2,7 +2,8 @@ import React from "react";
 import styles from "./trendingquizcard.module.css";
 import ViewsSVG from "../../assets/views.svg";
 
-function TrendingQuizCard({ name, impressions }) {
+function TrendingQuizCard({ name, impressions, createdAt }) {
+    console.log(createdAt);
     return (
         <div className={styles.trendingQuizCard}>
             <div className={styles.quizData}>
@@ -18,7 +19,13 @@ function TrendingQuizCard({ name, impressions }) {
                     />
                 </p>
             </div>
-            <p className={styles.quizCreatedOn}>Created on : 04 Sep, 2023</p>
+            <p className={styles.quizCreatedOn}>
+                {new Date(createdAt).toLocaleDateString("en-US", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                })}
+            </p>
         </div>
     );
 }

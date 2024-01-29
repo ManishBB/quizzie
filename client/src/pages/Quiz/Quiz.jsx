@@ -3,6 +3,8 @@ import styles from "./quiz.module.css";
 import TextOptionCard from "../../components/TextOptionCard/TextOptionCard";
 import ImageOptionCard from "../../components/ImageOptionCard/ImageOptionCard";
 import TextImageOptionCard from "../../components/TextImageOptionCard/TextImageOptionCard";
+import axios from "axios";
+import conf from "../../config/config";
 
 function Quiz({
     questionNumber,
@@ -13,9 +15,12 @@ function Quiz({
     onNextQuestion,
     currentQuestionIndex,
     setCorrectAnswers,
+    quizType,
 }) {
     const [selectedOption, setSelectedOption] = useState(null);
     const [timeRemaining, setTimeRemaining] = useState(timer);
+
+    console.log(quizType);
 
     useEffect(() => {
         const countdown = setInterval(() => {
@@ -33,10 +38,38 @@ function Quiz({
     useEffect(() => {
         setTimeRemaining(timer);
         setSelectedOption(null);
+
+        //getting question id to increment question impression count
+        console.log(question._id);
     }, [currentQuestionIndex]);
 
-    const handleOptionSelect = (optionIndex) => {
+    const handleOptionSelect = async (optionId, optionIndex) => {
         setSelectedOption(optionIndex);
+        console.log(optionIndex, question.correctAnswer);
+        if (quizType === "poll") {
+            await axios.patch(
+                `${conf.baseUrl}/quiz/update-poll-option-impression`,
+                {
+                    optionId: optionId,
+                }
+            );
+        } else {
+            if (optionIndex === question.correctAnswer) {
+                await axios.patch(
+                    `${conf.baseUrl}/quiz/update-qna-correct-option-impression`,
+                    {
+                        questionId: question._id,
+                    }
+                );
+            } else {
+                await axios.patch(
+                    `${conf.baseUrl}/quiz/update-qna-wrong-option-impression`,
+                    {
+                        questionId: question._id,
+                    }
+                );
+            }
+        }
     };
 
     const handleNextClick = () => {
@@ -62,7 +95,9 @@ function Quiz({
                             question?.options.map((option, index) => (
                                 <div
                                     key={index}
-                                    onClick={(e) => handleOptionSelect(index)}
+                                    onClick={(e) =>
+                                        handleOptionSelect(question._id, index)
+                                    }
                                     className={`${
                                         selectedOption === index
                                             ? styles.activeOptionBorder

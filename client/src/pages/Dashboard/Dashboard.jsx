@@ -37,6 +37,7 @@ function Dashboard() {
                         <TrendingQuizCard
                             name={quiz.quizName}
                             impressions={quiz.impressions}
+                            created={quiz.createdAt}
                         />
                     ))}
                 </div>
