@@ -3,7 +3,7 @@ import { ApiError } from "../utils/ApiError.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
 
 const createQuiz = async (req, res) => {
-    const { quizName, quizType, timer, questions } = req.body;
+    const { quizName, quizType, timer, optionsType, questions } = req.body;
 
     const user = req.user?._id;
     // Create a new quiz object
@@ -12,6 +12,7 @@ const createQuiz = async (req, res) => {
         quizName: quizName,
         quizType: quizType,
         timer: timer,
+        optionsType: optionsType,
         questions: questions,
     });
 

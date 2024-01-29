@@ -8,7 +8,7 @@ function Sidebar({ setIsCreateQuizModalActive }) {
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         dispatch(logout());
         localStorage.removeItem("isLoggedIn");
         localStorage.removeItem("userData");

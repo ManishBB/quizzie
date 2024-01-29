@@ -1,12 +1,12 @@
-import React from 'react'
-import styles from './textoptioncard.module.css'
+import React from "react";
+import styles from "./textoptioncard.module.css";
 
-function TextOptionCard() {
-  return (
-    <div className={styles.optionContainer}>
-        <p>Option 1</p>
-    </div>
-  )
+function TextOptionCard({ option }) {
+    return (
+        <div className={styles.optionContainer}>
+            <p>{option.text}</p>
+        </div>
+    );
 }
 
-export default TextOptionCard
+export default TextOptionCard;

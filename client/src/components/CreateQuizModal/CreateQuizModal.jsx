@@ -10,7 +10,7 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
     const [quizCreatedModal, setQuizCreatedModal] = useState(false);
 
     const [quizName, setQuizName] = useState("");
-    const [quizType, setQuizType] = useState("");
+    const [quizType, setQuizType] = useState("qna");
     const [quizTimer, setQuizTimer] = useState(0);
 
     const [questions, setQuestions] = useState([""]);
@@ -18,7 +18,16 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
     const [options, setOptions] = useState([["", ""]]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-    console.log(optionsType);
+    const showData = () => {
+        console.log("Questions", questions);
+        console.log("Option Type", optionsType);
+        console.log("Options", options);
+        console.log("Current Question Index", currentQuestionIndex);
+    };
+
+    useEffect(() => {
+        showData();
+    }, []);
 
     const handleQuizNameChange = (e) => {
         setQuizName(e.target.value);
@@ -39,18 +48,21 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
 
     const handleOptionTypeChange = (e) => {
         setOptionsType(e.target.value);
+        showData();
     };
 
     const handleQuestionChange = (e) => {
         const newQuestions = [...questions];
         newQuestions[currentQuestionIndex] = e.target.value;
         setQuestions(newQuestions);
+        showData();
     };
 
     const handleOptionChange = (e, optionIndex) => {
         const newOptions = [...options];
         newOptions[currentQuestionIndex][optionIndex] = e.target.value;
         setOptions(newOptions);
+        showData();
     };
 
     const handleAddQuestion = () => {
@@ -58,6 +70,7 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
             setQuestions([...questions, ""]);
             setOptions([...options, ["", ""]]);
             setCurrentQuestionIndex(questions.length);
+            showData();
         }
     };
 
@@ -76,6 +89,7 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
             } else if (currentQuestionIndex > index) {
                 setCurrentQuestionIndex(currentQuestionIndex - 1);
             }
+            showData();
         }
     };
 
@@ -92,6 +106,7 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
             const newOptions = [...options];
             newOptions[currentQuestionIndex].splice(optionIndex, 1);
             setOptions(newOptions);
+            showData();
         }
     };
 
@@ -99,7 +114,27 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
         setCurrentQuestionIndex(index);
     };
 
-    const handleCreateQuiz = async () => {};
+    const handleCreateQuiz = async () => {
+        const quiz = {
+            quizName: quizName,
+            quizType: quizType,
+            timer: quizTimer,
+            optionsType: optionsType,
+            questions: questions.map((question, index) => {
+                return {
+                    questionTitle: question.questionTitle,
+                    correctAnswer: 1,
+                    options: options[index].map((option) => {
+                        return {
+                            option,
+                        };
+                    }),
+                };
+            }),
+        };
+
+        console.log(quiz);
+    };
 
     const notify = () => {
         toast.success("Link copied to clipboard");
@@ -115,6 +150,7 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                         name="quizName"
                         id="quizName"
                         placeholder="Quiz Name"
+                        onChange={(e) => setQuizName(e.target.value)}
                     />
                     <div className={styles.quizTypeDiv}>
                         <p className={styles.quizTypeText}>Quiz Type</p>
@@ -165,7 +201,7 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                     <div className={styles.questionNumbersDiv}>
                         <div className={styles.questionNumbers}>
                             <div>
-                                {questions.map((question, index) => (
+                                {questions?.map((question, index) => (
                                     <button
                                         className={styles.questionNumberButton}
                                         key={index}
@@ -402,37 +438,41 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                             )}
                         </div>
                         <div className={styles.timerDiv}>
-                            <p className={styles.timerText}>Timer</p>
-                            <button
-                                className={`${styles.timerBtn} ${
-                                    quizTimer == "0"
-                                        ? styles.activatedTimerBtn
-                                        : ""
-                                }`}
-                                onClick={(e) => setQuizTimer(0)}
-                            >
-                                OFF
-                            </button>
-                            <button
-                                className={`${styles.timerBtn} ${
-                                    quizTimer == "5"
-                                        ? styles.activatedTimerBtn
-                                        : ""
-                                }`}
-                                onClick={(e) => setQuizTimer(5)}
-                            >
-                                5 sec
-                            </button>
-                            <button
-                                className={`${styles.timerBtn} ${
-                                    quizTimer == "10"
-                                        ? styles.activatedTimerBtn
-                                        : ""
-                                }`}
-                                onClick={(e) => setQuizTimer(10)}
-                            >
-                                10 sec
-                            </button>
+                            {quizType === "qna" && (
+                                <>
+                                    <p className={styles.timerText}>Timer</p>
+                                    <button
+                                        className={`${styles.timerBtn} ${
+                                            quizTimer == "0"
+                                                ? styles.activatedTimerBtn
+                                                : ""
+                                        }`}
+                                        onClick={(e) => setQuizTimer(0)}
+                                    >
+                                        OFF
+                                    </button>
+                                    <button
+                                        className={`${styles.timerBtn} ${
+                                            quizTimer == "5"
+                                                ? styles.activatedTimerBtn
+                                                : ""
+                                        }`}
+                                        onClick={(e) => setQuizTimer(5)}
+                                    >
+                                        5 sec
+                                    </button>
+                                    <button
+                                        className={`${styles.timerBtn} ${
+                                            quizTimer == "10"
+                                                ? styles.activatedTimerBtn
+                                                : ""
+                                        }`}
+                                        onClick={(e) => setQuizTimer(10)}
+                                    >
+                                        10 sec
+                                    </button>
+                                </>
+                            )}
                         </div>
                     </div>
 
