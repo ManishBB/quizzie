@@ -23,7 +23,6 @@ function QuizLayout() {
 
     const handleNextQuestion = () => {
         setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-        console.log(currentQuestionIndex);
     };
 
     return (
@@ -37,6 +36,7 @@ function QuizLayout() {
                     optionsType={quiz.optionsType}
                     onNextQuestion={handleNextQuestion}
                     currentQuestionIndex={currentQuestionIndex}
+                    setCorrectAnswers={setCorrectAnswers}
                 />
             ) : quiz?.quizType === "qna" ? (
                 <QnACompletion

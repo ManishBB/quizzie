@@ -12,6 +12,7 @@ function Quiz({
     optionsType,
     onNextQuestion,
     currentQuestionIndex,
+    setCorrectAnswers,
 }) {
     const [selectedOption, setSelectedOption] = useState(null);
     const [timeRemaining, setTimeRemaining] = useState(timer);
@@ -31,14 +32,17 @@ function Quiz({
 
     useEffect(() => {
         setTimeRemaining(timer);
+        setSelectedOption(null);
     }, [currentQuestionIndex]);
 
     const handleOptionSelect = (optionIndex) => {
-        console.log(optionIndex);
         setSelectedOption(optionIndex);
     };
 
     const handleNextClick = () => {
+        if (question.correctAnswer === selectedOption) {
+            setCorrectAnswers((prevCorrectAnswers) => prevCorrectAnswers + 1);
+        }
         onNextQuestion();
     };
 
@@ -56,47 +60,37 @@ function Quiz({
                     <div className={styles.optionsDiv}>
                         {optionsType == "text" &&
                             question?.options.map((option, index) => (
-                                <TextOptionCard
+                                <div
                                     key={index}
                                     onClick={(e) => handleOptionSelect(index)}
-                                    style={{
-                                        backgroundColor:
-                                            selectedOption === index
-                                                ? "black"
-                                                : "transparent",
-                                    }}
-                                    option={option}
-                                />
+                                    className={`${
+                                        selectedOption === index
+                                            ? styles.activeOptionBorder
+                                            : styles.optionBorder
+                                    }`}
+                                >
+                                    <TextOptionCard option={option} />
+                                </div>
                             ))}
 
                         {optionsType == "image" &&
                             question?.options.map((option, index) => (
-                                <ImageOptionCard
+                                <div
                                     key={index}
-                                    onClick={() => handleOptionSelect(index)}
-                                    style={{
-                                        backgroundColor:
-                                            selectedOption === index
-                                                ? "lightblue"
-                                                : "transparent",
-                                    }}
-                                    option={option}
-                                />
+                                    onClick={(e) => handleOptionSelect(index)}
+                                >
+                                    <ImageOptionCard option={option} />
+                                </div>
                             ))}
 
                         {optionsType == "textImage" &&
                             question?.options.map((option, index) => (
-                                <TextImageOptionCard
+                                <div
                                     key={index}
-                                    onClick={() => handleOptionSelect(index)}
-                                    style={{
-                                        backgroundColor:
-                                            selectedOption === index
-                                                ? "lightblue"
-                                                : "transparent",
-                                    }}
-                                    option={option}
-                                />
+                                    onClick={(e) => handleOptionSelect(index)}
+                                >
+                                    <TextImageOptionCard option={option} />
+                                </div>
                             ))}
                     </div>
                 </div>
