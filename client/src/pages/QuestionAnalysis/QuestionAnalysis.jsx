@@ -8,6 +8,7 @@ import { getQuizImpressionAnalysis } from "../../utils/ApiUtils";
 function QuestionAnalysis() {
     const location = useLocation();
     const [quizData, setQuizData] = useState(null);
+    let createdAt;
 
     useEffect(() => {
         const quizId = location?.state;
@@ -19,12 +20,15 @@ function QuestionAnalysis() {
         fetchQuizData();
     }, []);
 
-    console.log(quizData);
-
     return (
         <div className={styles.container}>
             <p className={styles.metadataContainer}>
-                Created on : 04 Sep, 2023
+                Created on :{" "}
+                {new Date(quizData?.createdAt).toLocaleDateString("en-US", {
+                    day: "numeric",
+                    month: "short",
+                    year: "numeric",
+                })}
                 <br />
                 Impressions : {quizData?.impressions}
             </p>

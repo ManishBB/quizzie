@@ -68,7 +68,15 @@ function Analysis() {
                             <tr key={index}>
                                 <td>{index}</td>
                                 <td>{quiz.quizName}</td>
-                                <td>{"11 Sep. 2020"}</td>
+                                <td>
+                                    {new Date(
+                                        quiz?.createdAt
+                                    ).toLocaleDateString("en-US", {
+                                        day: "numeric",
+                                        month: "short",
+                                        year: "numeric",
+                                    })}
+                                </td>
                                 <td>{quiz.impressions}</td>
                                 <td>
                                     <img
