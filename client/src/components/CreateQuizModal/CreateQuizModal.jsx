@@ -18,20 +18,11 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
     const [options, setOptions] = useState([["", ""]]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-    const showData = () => {
-        console.log("Questions", questions);
-        console.log("Option Type", optionsType);
-        console.log("Options", options);
-        console.log("Current Question Index", currentQuestionIndex);
-    };
-
     useEffect(() => {
-        showData();
-    }, []);
+        console.log(options, currentQuestionIndex);
 
-    const handleQuizNameChange = (e) => {
-        setQuizName(e.target.value);
-    };
+        return console.log(currentQuestionIndex);
+    }, [questions, options, currentQuestionIndex]);
 
     const handleQuizTypeChangeToQnA = (e) => {
         setQuizType("qna");
@@ -48,21 +39,18 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
 
     const handleOptionTypeChange = (e) => {
         setOptionsType(e.target.value);
-        showData();
     };
 
     const handleQuestionChange = (e) => {
         const newQuestions = [...questions];
         newQuestions[currentQuestionIndex] = e.target.value;
         setQuestions(newQuestions);
-        showData();
     };
 
     const handleOptionChange = (e, optionIndex) => {
         const newOptions = [...options];
         newOptions[currentQuestionIndex][optionIndex] = e.target.value;
         setOptions(newOptions);
-        showData();
     };
 
     const handleAddQuestion = () => {
@@ -70,27 +58,19 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
             setQuestions([...questions, ""]);
             setOptions([...options, ["", ""]]);
             setCurrentQuestionIndex(questions.length);
-            showData();
         }
     };
 
     const handleRemoveQuestion = (index) => {
-        if (questions.length > 1) {
-            const newQuestions = [...questions];
-            newQuestions.splice(index, 1);
-            setQuestions(newQuestions);
-
-            const newOptions = [...options];
-            newOptions.splice(index, 1);
-            setOptions(newOptions);
-
-            if (currentQuestionIndex === index) {
-                setCurrentQuestionIndex(0);
-            } else if (currentQuestionIndex > index) {
-                setCurrentQuestionIndex(currentQuestionIndex - 1);
-            }
-            showData();
+        if (currentQuestionIndex == index && index >= questions.length - 1) {
+            setCurrentQuestionIndex((prev) => prev - 2);
         }
+        const newQuestions = [...questions];
+        newQuestions.splice(index, 1);
+        setQuestions(newQuestions);
+        const newOptions = [...options];
+        newOptions.splice(index, 1);
+        setOptions(newOptions);
     };
 
     const handleAddOption = () => {
@@ -106,7 +86,6 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
             const newOptions = [...options];
             newOptions[currentQuestionIndex].splice(optionIndex, 1);
             setOptions(newOptions);
-            showData();
         }
     };
 
@@ -218,10 +197,8 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                                                     styles.removeQuestionButton
                                                 }
                                                 type="button"
-                                                onClick={() =>
-                                                    handleRemoveQuestion(
-                                                        currentQuestionIndex
-                                                    )
+                                                onClick={(e) =>
+                                                    handleRemoveQuestion(index)
                                                 }
                                             >
                                                 x
@@ -320,62 +297,29 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
 
                     <div className={styles.optionsAndTimerDiv}>
                         <div className={styles.optionsDiv}>
-                            {options[currentQuestionIndex].map(
-                                (option, optionIndex) => (
-                                    <div
-                                        key={optionIndex}
-                                        className={styles.option}
-                                    >
-                                        <div className={styles.optionDiv}>
-                                            <input
-                                                type="radio"
-                                                name="correctAnswer"
-                                                id="Text"
-                                                className={
-                                                    styles.correctAnswerBtn
-                                                }
-                                            />
-                                        </div>
+                            {console.log(
+                                "while rendering options",
+                                currentQuestionIndex
+                            )}
+                            {options[currentQuestionIndex] &&
+                                options[currentQuestionIndex].map(
+                                    (option, optionIndex) => (
+                                        <div
+                                            key={optionIndex}
+                                            className={styles.option}
+                                        >
+                                            <div className={styles.optionDiv}>
+                                                <input
+                                                    type="radio"
+                                                    name="correctAnswer"
+                                                    id="Text"
+                                                    className={
+                                                        styles.correctAnswerBtn
+                                                    }
+                                                />
+                                            </div>
 
-                                        {optionsType == "text" && (
-                                            <input
-                                                type="text"
-                                                id={`option${currentQuestionIndex}-${optionIndex}`}
-                                                value={option}
-                                                onChange={(e) =>
-                                                    handleOptionChange(
-                                                        e,
-                                                        optionIndex
-                                                    )
-                                                }
-                                                placeholder="Text"
-                                                className={
-                                                    styles.optionTextOrImageInput
-                                                }
-                                            />
-                                        )}
-
-                                        {optionsType == "image" && (
-                                            <input
-                                                type="text"
-                                                id={`option${currentQuestionIndex}-${optionIndex}`}
-                                                value={option}
-                                                onChange={(e) =>
-                                                    handleOptionChange(
-                                                        e,
-                                                        optionIndex
-                                                    )
-                                                }
-                                                placeholder="Image URL"
-                                                className={
-                                                    styles.optionTextOrImageInput
-                                                }
-                                            />
-                                        )}
-
-                                        {optionsType == "textImage" && (
-                                            <>
-                                                {" "}
+                                            {optionsType == "text" && (
                                                 <input
                                                     type="text"
                                                     id={`option${currentQuestionIndex}-${optionIndex}`}
@@ -385,57 +329,98 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                                                             e,
                                                             optionIndex
                                                         )
-                                                    }
-                                                    className={
-                                                        styles.optionTextInput
                                                     }
                                                     placeholder="Text"
-                                                />
-                                                <input
-                                                    type="text"
-                                                    id={`option${currentQuestionIndex}-${optionIndex}`}
-                                                    value={option}
-                                                    onChange={(e) =>
-                                                        handleOptionChange(
-                                                            e,
-                                                            optionIndex
-                                                        )
-                                                    }
                                                     className={
-                                                        styles.optionImageInput
-                                                    }
-                                                    placeholder="Image Url"
-                                                />
-                                            </>
-                                        )}
-
-                                        {optionIndex > 1 &&
-                                            options[currentQuestionIndex]
-                                                .length > 2 && (
-                                                <img
-                                                    className={styles.svgIcon}
-                                                    src={DeleteSVG}
-                                                    alt="Delete SVG"
-                                                    onClick={() =>
-                                                        handleRemoveOption(
-                                                            optionIndex
-                                                        )
+                                                        styles.optionTextOrImageInput
                                                     }
                                                 />
                                             )}
-                                    </div>
-                                )
-                            )}
 
-                            {options[currentQuestionIndex].length < 4 && (
-                                <button
-                                    className={styles.addOptionBtn}
-                                    type="button"
-                                    onClick={handleAddOption}
-                                >
-                                    Add Option
-                                </button>
-                            )}
+                                            {optionsType == "image" && (
+                                                <input
+                                                    type="text"
+                                                    id={`option${currentQuestionIndex}-${optionIndex}`}
+                                                    value={option}
+                                                    onChange={(e) =>
+                                                        handleOptionChange(
+                                                            e,
+                                                            optionIndex
+                                                        )
+                                                    }
+                                                    placeholder="Image URL"
+                                                    className={
+                                                        styles.optionTextOrImageInput
+                                                    }
+                                                />
+                                            )}
+
+                                            {optionsType == "textImage" && (
+                                                <>
+                                                    {" "}
+                                                    <input
+                                                        type="text"
+                                                        id={`option${currentQuestionIndex}-${optionIndex}`}
+                                                        value={option}
+                                                        onChange={(e) =>
+                                                            handleOptionChange(
+                                                                e,
+                                                                optionIndex
+                                                            )
+                                                        }
+                                                        className={
+                                                            styles.optionTextInput
+                                                        }
+                                                        placeholder="Text"
+                                                    />
+                                                    <input
+                                                        type="text"
+                                                        id={`option${currentQuestionIndex}-${optionIndex}`}
+                                                        value={option}
+                                                        onChange={(e) =>
+                                                            handleOptionChange(
+                                                                e,
+                                                                optionIndex
+                                                            )
+                                                        }
+                                                        className={
+                                                            styles.optionImageInput
+                                                        }
+                                                        placeholder="Image Url"
+                                                    />
+                                                </>
+                                            )}
+
+                                            {optionIndex > 1 &&
+                                                options[currentQuestionIndex]
+                                                    .length > 2 && (
+                                                    <img
+                                                        className={
+                                                            styles.svgIcon
+                                                        }
+                                                        src={DeleteSVG}
+                                                        alt="Delete SVG"
+                                                        onClick={() =>
+                                                            handleRemoveOption(
+                                                                optionIndex
+                                                            )
+                                                        }
+                                                    />
+                                                )}
+                                        </div>
+                                    )
+                                )}
+
+                            {options[currentQuestionIndex] &&
+                                options[currentQuestionIndex].length < 4 && (
+                                    <button
+                                        className={styles.addOptionBtn}
+                                        type="button"
+                                        onClick={handleAddOption}
+                                    >
+                                        Add Option
+                                    </button>
+                                )}
                         </div>
                         <div className={styles.timerDiv}>
                             {quizType === "qna" && (

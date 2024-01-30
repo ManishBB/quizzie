@@ -9,7 +9,6 @@ function Dashboard() {
     const trendingQuizzes = useSelector(
         (state) => state.quizzes.trendingQuizzes
     );
-    console.log(quizStats, trendingQuizzes);
 
     return (
         <div className={styles.dashboard}>
@@ -33,8 +32,9 @@ function Dashboard() {
             <div className={styles.trendingQuizsContainer}>
                 <p className={styles.trendingQuizsHeading}>Trending Quizs</p>
                 <div className={styles.trendingQuizsLayout}>
-                    {trendingQuizzes?.map((quiz) => (
+                    {trendingQuizzes?.map((quiz, index) => (
                         <TrendingQuizCard
+                            key={index}
                             name={quiz.quizName}
                             impressions={quiz.impressions}
                             created={quiz.createdAt}
