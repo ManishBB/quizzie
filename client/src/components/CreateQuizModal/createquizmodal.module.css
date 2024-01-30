@@ -154,8 +154,6 @@
 
 .questionIndex {
     text-align: center;
-    position: relative;
-    left: 5px;
 }
 
 .removeQuestionButton {
@@ -163,7 +161,7 @@
     width: 5px;
     font-size: 15px;
     position: relative;
-    right: -15px;
+    left: -25px;
     top: -15px;
     color: #474444;
 }

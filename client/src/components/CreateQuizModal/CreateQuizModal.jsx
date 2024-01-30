@@ -18,11 +18,7 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
     const [options, setOptions] = useState([["", ""]]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-    useEffect(() => {
-        console.log(options, currentQuestionIndex);
-
-        return console.log(currentQuestionIndex);
-    }, [questions, options, currentQuestionIndex]);
+    useEffect(() => {}, [questions, options, currentQuestionIndex]);
 
     const handleQuizTypeChangeToQnA = (e) => {
         setQuizType("qna");
@@ -33,6 +29,11 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
     };
 
     const handleNextTab = (e) => {
+        if (quizName === "") {
+            alert("Please enter the quiz name!");
+            return;
+        }
+
         setQuizTitleModal(false);
         setAddQuestionsModal(true);
     };
@@ -62,9 +63,24 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
     };
 
     const handleRemoveQuestion = (index) => {
-        if (currentQuestionIndex == index && index >= questions.length - 1) {
-            setCurrentQuestionIndex((prev) => prev - 2);
+        if (index == 0) {
+            if (currentQuestionIndex != index) {
+                setCurrentQuestionIndex((prev) => prev - 1);
+            }
         }
+
+        if (index >= questions.length - 1) {
+            if (currentQuestionIndex != 0) {
+                setCurrentQuestionIndex((prev) => prev - 1);
+            }
+        }
+
+        if (index > 0 && index < questions.length - 1) {
+            if (currentQuestionIndex >= index) {
+                setCurrentQuestionIndex((prev) => prev - 1);
+            }
+        }
+
         const newQuestions = [...questions];
         newQuestions.splice(index, 1);
         setQuestions(newQuestions);
@@ -181,16 +197,20 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                         <div className={styles.questionNumbers}>
                             <div>
                                 {questions?.map((question, index) => (
-                                    <button
-                                        className={styles.questionNumberButton}
-                                        key={index}
-                                        onClick={() =>
-                                            handleQuestionTabClick(index)
-                                        }
-                                    >
-                                        <p className={styles.questionIndex}>
-                                            {index + 1}
-                                        </p>
+                                    <>
+                                        <button
+                                            className={
+                                                styles.questionNumberButton
+                                            }
+                                            key={index}
+                                            onClick={() =>
+                                                handleQuestionTabClick(index)
+                                            }
+                                        >
+                                            <p className={styles.questionIndex}>
+                                                {index + 1}
+                                            </p>
+                                        </button>
                                         {questions.length > 1 && (
                                             <button
                                                 className={
@@ -204,7 +224,7 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                                                 x
                                             </button>
                                         )}
-                                    </button>
+                                    </>
                                 ))}
 
                                 {questions.length < 5 && (
