@@ -82,6 +82,7 @@
     flex-direction: column;
     padding: 50px 100px;
     border-radius: 15px;
+    border: 2px solid #b1b1b1;
 }
 
 .quizCreatedText {
@@ -219,7 +220,6 @@
     display: flex;
 }
 
-
 .correctAnswerBtn {
     width: auto;
     margin-right: 10px;
@@ -323,5 +323,14 @@
 .correctAnswer {
     background-color: #60b84b;
     color: #fff;
+}
 
+.quizCreatedCloseButton {
+    width: 25px;
+    height: 25px;
+    font-size: 30px;
+    display: inline;
+    position: relative;
+    top: -30px;
+    left: 500px;
 }

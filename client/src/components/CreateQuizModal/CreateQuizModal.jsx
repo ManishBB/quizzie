@@ -153,6 +153,59 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
     };
 
     const handleCreateQuiz = async () => {
+        for (let i = 0; i < questions.length; i++) {
+            if (questions[i] === "") {
+                alert("Please enter the question number " + (i + 1));
+                return;
+            }
+
+            for (let j = 0; j < options[i].length; j++) {
+                if (quizOptionsType === "text") {
+                    if (options[i][j].text === "") {
+                        alert(
+                            "Please enter the option number " +
+                                (j + 1) +
+                                " for the question number " +
+                                (i + 1)
+                        );
+                        return;
+                    }
+                }
+                if (quizOptionsType === "image") {
+                    if (options[i][j].imageUrl === "") {
+                        alert(
+                            "Please enter the option number " +
+                                (j + 1) +
+                                " for the question number " +
+                                (i + 1)
+                        );
+                        return;
+                    }
+                }
+                if (quizOptionsType === "textImage") {
+                    if (
+                        options[i][j].text === "" ||
+                        options[i][j].imageUrl === ""
+                    ) {
+                        alert(
+                            "Please enter the option number " +
+                                (j + 1) +
+                                " for the question number " +
+                                (i + 1)
+                        );
+                        return;
+                    }
+                }
+            }
+
+            if (correctAnswer[i] === "") {
+                alert(
+                    "Please select correct answer for the question " + (i + 1)
+                );
+                return;
+            }
+        }
+
         const quiz = {
             quizName: quizName,
             quizType: quizType,
@@ -184,9 +237,7 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
             }),
         };
 
-        console.log(quiz);
         try {
-            console.log("request sent");
             const response = await axios.post(
                 `${conf.baseUrl}/quiz/create-quiz`,
                 {
@@ -222,6 +273,10 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
     const handleShareLink = () => {
         navigator.clipboard.writeText(`${quizUrl}`);
         toast.success("Link copied to clipboard");
+    };
+
+    const handleCloseModal = () => {
+        setIsCreateQuizModalActive(false);
     };
 
     return (
@@ -624,6 +679,12 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
 
             {quizCreatedModal && (
                 <div className={styles.quizCreatedContainer}>
+                    <span
+                        className={styles.quizCreatedCloseButton}
+                        onClick={handleCloseModal}
+                    >
+                        x
+                    </span>
                     <p className={styles.quizCreatedText}>
                         Congrats your Quiz is Published!
                     </p>
