@@ -10,6 +10,14 @@ function Dashboard() {
         (state) => state.quizzes.trendingQuizzes
     );
 
+    const formatImpressions = (num) => {
+        if (num < 1000) {
+            return num.toString();
+        } else if (num < 1000000) {
+            return (num / 1000).toFixed(1) + "K";
+        }
+    };
+
     return (
         <div className={styles.dashboard}>
             <div className={styles.statsCardsContainer}>
@@ -20,12 +28,12 @@ function Dashboard() {
                 />
                 <StatCard
                     color={"#60B84B"}
-                    data={quizStats?.numberOfQuestions}
+                    data={formatImpressions(quizStats?.numberOfQuestions)}
                     message={"Questions Created"}
                 />
                 <StatCard
                     color={"#5076FF"}
-                    data={quizStats?.totalImpressions}
+                    data={formatImpressions(quizStats?.totalImpressions)}
                     message={"Total Impressions"}
                 />
             </div>

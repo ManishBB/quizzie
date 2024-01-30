@@ -153,6 +153,12 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
     };
 
     const handleCreateQuiz = async () => {
+        if (quizType === "poll") {
+            for (let i = 0; i < questions.length; i++) {
+                correctAnswer[i] = 0;
+            }
+        }
+
         for (let i = 0; i < questions.length; i++) {
             if (questions[i] === "") {
                 alert("Please enter the question number " + (i + 1));
@@ -473,9 +479,13 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                                                     type="radio"
                                                     name="correctAnswer"
                                                     id="Text"
-                                                    className={
+                                                    className={`${
                                                         styles.correctAnswerBtn
-                                                    }
+                                                    } ${
+                                                        quizType === "poll"
+                                                            ? styles.radioButtonOnPollType
+                                                            : ""
+                                                    }`}
                                                     checked={
                                                         optionIndex ===
                                                         correctAnswer[

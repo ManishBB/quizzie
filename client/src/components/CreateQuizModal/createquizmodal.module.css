@@ -325,6 +325,10 @@
     color: #fff;
 }
 
+.radioButtonOnPollType {
+    visibility: hidden;
+}
+
 .quizCreatedCloseButton {
     width: 25px;
     height: 25px;

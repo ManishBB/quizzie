@@ -23,16 +23,20 @@ function Quiz({
     console.log(quizType);
 
     useEffect(() => {
-        const countdown = setInterval(() => {
-            setTimeRemaining((prevTime) => prevTime - 1);
-        }, 1000);
+        let countdown;
+        if (!(quizType === "poll" || timer === 0)) {
+            countdown = setInterval(() => {
+                setTimeRemaining((prevTime) => prevTime - 1);
+            }, 1000);
 
-        if (timeRemaining === 0) {
-            clearInterval(countdown);
-            onNextQuestion();
+            if (timeRemaining === 0) {
+                clearInterval(countdown);
+                onNextQuestion();
+            }
         }
 
-        return () => clearInterval(countdown);
+        return () =>
+            clearInterval(!(quizType === "poll" || timer === 0) && countdown);
     }, [timeRemaining]);
 
     useEffect(() => {
@@ -43,10 +47,10 @@ function Quiz({
         console.log(question._id);
     }, [currentQuestionIndex]);
 
-    const handleOptionSelect = async (optionId, optionIndex) => {
+    const handleOptionSelect = async (questionId, optionId, optionIndex) => {
         setSelectedOption(optionIndex);
-        console.log(optionIndex, question.correctAnswer);
         if (quizType === "poll") {
+            console.log(optionId);
             await axios.patch(
                 `${conf.baseUrl}/quiz/update-poll-option-impression`,
                 {
@@ -86,7 +90,13 @@ function Quiz({
                     <span className={styles.questionNumber}>
                         0{questionNumber + 1}/0{totalQuestions}
                     </span>
-                    <span className={styles.timer}>00:{timeRemaining}s</span>
+                    {quizType === "qna" ? (
+                        <span className={styles.timer}>
+                            00:{timeRemaining}s
+                        </span>
+                    ) : (
+                        <span className={styles.timer}></span>
+                    )}
                 </div>
                 <div className={styles.questionDiv}>
                     <p className={styles.question}>{question.questionTitle}</p>
@@ -96,7 +106,11 @@ function Quiz({
                                 <div
                                     key={index}
                                     onClick={(e) =>
-                                        handleOptionSelect(question._id, index)
+                                        handleOptionSelect(
+                                            question._id,
+                                            option._id,
+                                            index
+                                        )
                                     }
                                     className={`${
                                         selectedOption === index
@@ -112,7 +126,13 @@ function Quiz({
                             question?.options.map((option, index) => (
                                 <div
                                     key={index}
-                                    onClick={(e) => handleOptionSelect(index)}
+                                    onClick={(e) =>
+                                        handleOptionSelect(
+                                            question._id,
+                                            option._id,
+                                            index
+                                        )
+                                    }
                                 >
                                     <ImageOptionCard option={option} />
                                 </div>
@@ -122,7 +142,13 @@ function Quiz({
                             question?.options.map((option, index) => (
                                 <div
                                     key={index}
-                                    onClick={(e) => handleOptionSelect(index)}
+                                    onClick={(e) =>
+                                        handleOptionSelect(
+                                            question._id,
+                                            option._id,
+                                            index
+                                        )
+                                    }
                                 >
                                     <TextImageOptionCard option={option} />
                                 </div>
