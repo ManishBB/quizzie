@@ -2,8 +2,8 @@ import React from "react";
 import styles from "./trendingquizcard.module.css";
 import ViewsSVG from "../../assets/views.svg";
 
-function TrendingQuizCard({ name, impressions, createdAt }) {
-    console.log(createdAt);
+function TrendingQuizCard({ name, impressions, createdAt, quiz }) {
+    console.log(quiz);
     return (
         <div className={styles.trendingQuizCard}>
             <div className={styles.quizData}>
@@ -20,11 +20,13 @@ function TrendingQuizCard({ name, impressions, createdAt }) {
                 </p>
             </div>
             <p className={styles.quizCreatedOn}>
-                {new Date(createdAt).toLocaleDateString("en-US", {
-                    day: "numeric",
-                    month: "short",
-                    year: "numeric",
-                })}
+                {quiz.createdAt
+                    ? new Date(quiz.createdAt).toLocaleDateString("en-US", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                      })
+                    : "Date Unavailable..."}
             </p>
         </div>
     );

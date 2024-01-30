@@ -15,8 +15,39 @@ import {
     useNavigate,
 } from "react-router-dom";
 import DeleteModal from "../../components/DeleteModal/DeleteModal";
+import {
+    getUserCreatedQuizzes,
+    getUserQuizStats,
+    getUserTrendingQuizzes,
+} from "../../utils/ApiUtils";
+import {
+    getCreatedQuizzes,
+    getQuizStats,
+    getTrendingQizzes,
+} from "../../store/quizSlice";
+import { useDispatch } from "react-redux";
+import { login } from "../../store/authSlice";
 
 function Home() {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchQuizData = async () => {
+            const statJson = await getUserQuizStats();
+            const trendingJson = await getUserTrendingQuizzes();
+            const createdJson = await getUserCreatedQuizzes();
+
+            dispatch(getQuizStats(statJson.data));
+            dispatch(getTrendingQizzes(trendingJson.data));
+            dispatch(getCreatedQuizzes(createdJson.data));
+        };
+
+        const userData = JSON.parse(localStorage.getItem("userData"));
+        dispatch(login({ ...userData }));
+
+        fetchQuizData();
+    }, []);
+
     const [isCreateQuizModalActive, setIsCreateQuizModalActive] =
         useState(false);
     const [isDeleteQuizModalActive, setDeleteQuizModalActive] = useState(false);

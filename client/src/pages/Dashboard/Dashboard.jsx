@@ -37,7 +37,7 @@ function Dashboard() {
                             key={index}
                             name={quiz.quizName}
                             impressions={quiz.impressions}
-                            created={quiz.createdAt}
+                            quiz={quiz}
                         />
                     ))}
                 </div>

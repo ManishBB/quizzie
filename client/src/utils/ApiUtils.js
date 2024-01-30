@@ -79,3 +79,22 @@ export const getQuiz = async (quizId) => {
         alert("Something went wrong while fetching quiz stats!");
     }
 };
+
+export const deleteQuiz = async (quizId) => {
+    const accessToken = localStorage.getItem("accessToken");
+
+    try {
+        const response = await axios.delete(
+            `${conf.baseUrl}/quiz/delete-quiz/${quizId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${JSON.parse(accessToken)}`,
+                },
+            }
+        );
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        alert("Something went wrong while fetching quiz stats!");
+    }
+};

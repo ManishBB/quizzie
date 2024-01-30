@@ -34,25 +34,6 @@ import {
 } from "./store/quizSlice";
 
 function App() {
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        const fetchQuizData = async () => {
-            const statJson = await getUserQuizStats();
-            const trendingJson = await getUserTrendingQuizzes();
-            const createdJson = await getUserCreatedQuizzes();
-
-            dispatch(getQuizStats(statJson.data));
-            dispatch(getTrendingQizzes(trendingJson.data));
-            dispatch(getCreatedQuizzes(createdJson.data));
-        };
-
-        const userData = JSON.parse(localStorage.getItem("userData"));
-        dispatch(login({ ...userData }));
-
-        fetchQuizData();
-    }, []);
-
     const isUserLoggedIn =
         useSelector((state) => state.auth.status) ||
         localStorage.getItem("isLoggedIn");
