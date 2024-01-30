@@ -3,6 +3,8 @@ import styles from "./createquizmodal.module.css";
 import DeleteSVG from "../../assets/delete.svg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import conf from "../../config/config";
+import axios from "axios";
 
 function CreateQuizModal({ setIsCreateQuizModalActive }) {
     const [quizTitleModal, setQuizTitleModal] = useState(true);
@@ -14,12 +16,21 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
     const [quizTimer, setQuizTimer] = useState(0);
 
     const [questions, setQuestions] = useState([""]);
-    const [optionsType, setOptionsType] = useState("text");
-    const [options, setOptions] = useState([["", ""]]);
-    const [correctAnswer, setCorrectAnswer] = useState(["", "", "", ""])
+    const [quizOptionsType, setOptionsType] = useState("text");
+    const [options, setOptions] = useState([
+        [
+            { text: "", imageUrl: "" },
+            { text: "", imageUrl: "" },
+        ],
+    ]);
+    const [correctAnswer, setCorrectAnswer] = useState(["", "", "", ""]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-    useEffect(() => { console.log(correctAnswer);}, [questions, options, currentQuestionIndex, correctAnswer]);
+    const [quizUrl, setQuizUrl] = useState("");
+
+    useEffect(() => {
+        console.log(options);
+    }, [questions, options, currentQuestionIndex, correctAnswer, quizUrl]);
 
     const handleQuizTypeChangeToQnA = (e) => {
         setQuizType("qna");
@@ -50,15 +61,40 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
     };
 
     const handleOptionChange = (e, optionIndex) => {
+        if (quizOptionsType === "text") {
+            const newOptions = [...options];
+            newOptions[currentQuestionIndex][optionIndex].text = e.target.value;
+            setOptions(newOptions);
+        } else {
+            const newOptions = [...options];
+            newOptions[currentQuestionIndex][optionIndex].imageUrl =
+                e.target.value;
+            setOptions(newOptions);
+        }
+    };
+
+    const handleTextOptionChange = (e, optionIndex) => {
         const newOptions = [...options];
-        newOptions[currentQuestionIndex][optionIndex] = e.target.value;
+        newOptions[currentQuestionIndex][optionIndex].text = e.target.value;
+        setOptions(newOptions);
+    };
+
+    const handleImageUrlOptionChange = (e, optionIndex) => {
+        const newOptions = [...options];
+        newOptions[currentQuestionIndex][optionIndex].imageUrl = e.target.value;
         setOptions(newOptions);
     };
 
     const handleAddQuestion = () => {
         if (questions.length < 5) {
             setQuestions([...questions, ""]);
-            setOptions([...options, ["", ""]]);
+            setOptions([
+                ...options,
+                [
+                    { text: "", imageUrl: "" },
+                    { text: "", imageUrl: "" },
+                ],
+            ]);
             setCurrentQuestionIndex(questions.length);
         }
     };
@@ -93,7 +129,7 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
     const handleAddOption = () => {
         if (options[currentQuestionIndex].length < 4) {
             const newOptions = [...options];
-            newOptions[currentQuestionIndex].push("");
+            newOptions[currentQuestionIndex].push({ text: "", imageUrl: "" });
             setOptions(newOptions);
         }
     };
@@ -121,24 +157,70 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
             quizName: quizName,
             quizType: quizType,
             timer: quizTimer,
-            optionsType: optionsType,
+            optionsType: quizOptionsType,
             questions: questions.map((question, index) => {
                 return {
-                    questionTitle: question.questionTitle,
-                    correctAnswer: 1,
-                    options: options[index].map((option) => {
-                        return {
-                            option,
-                        };
+                    questionTitle: questions[index],
+                    correctAnswer: correctAnswer[index],
+                    options: options[index].map((option, optionIndex) => {
+                        if (quizOptionsType === "text") {
+                            return {
+                                text: option.text,
+                                imageUrl: "",
+                            };
+                        } else if (quizOptionsType === "image") {
+                            return {
+                                text: "",
+                                imageUrl: option.imageUrl,
+                            };
+                        } else if (quizOptionsType === "textImage") {
+                            return {
+                                text: option.text,
+                                imageUrl: option.imageUrl,
+                            };
+                        }
                     }),
                 };
             }),
         };
 
         console.log(quiz);
+        try {
+            console.log("request sent");
+            const response = await axios.post(
+                `${conf.baseUrl}/quiz/create-quiz`,
+                {
+                    ...quiz,
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${JSON.parse(
+                            localStorage.getItem("accessToken")
+                        )}`,
+                    },
+                }
+            );
+            const { data } = response.data;
+
+            console.log(response.data.statusCode);
+
+            if (response.data.statusCode == 200) {
+                setQuizUrl(`http://localhost:5173/quiz/${data._id}`);
+                setAddQuestionsModal(false);
+                setQuizCreatedModal(true);
+                console.log(quizUrl);
+            } else {
+                alert(
+                    "Something went wrong while creating field! Please check if all fields are correctly formatted or check your network connection"
+                );
+            }
+        } catch (error) {
+            alert("Something went wrong while creating quiz!");
+        }
     };
 
-    const notify = () => {
+    const handleShareLink = () => {
+        navigator.clipboard.writeText(`${quizUrl}`);
         toast.success("Link copied to clipboard");
     };
 
@@ -276,7 +358,7 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                                 id="Text"
                                 value="text"
                                 className={styles.optionGroupType}
-                                checked={optionsType === "text"}
+                                checked={quizOptionsType === "text"}
                                 onChange={handleOptionTypeChange}
                             />
                             <label
@@ -293,7 +375,7 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                                 id="ImageUrl"
                                 value="image"
                                 className={styles.optionGroupType}
-                                checked={optionsType === "image"}
+                                checked={quizOptionsType === "image"}
                                 onChange={handleOptionTypeChange}
                             />
                             <label
@@ -310,7 +392,7 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                                 id="Text&ImageUrl"
                                 value="textImage"
                                 className={styles.optionGroupType}
-                                checked={optionsType === "textImage"}
+                                checked={quizOptionsType === "textImage"}
                                 onChange={handleOptionTypeChange}
                             />
                             <label
@@ -339,16 +421,25 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                                                     className={
                                                         styles.correctAnswerBtn
                                                     }
-                                                    checked={optionIndex === correctAnswer[currentQuestionIndex]}
-                                                    onClick={(e) => handleCorrectAnswer(optionIndex)}
+                                                    checked={
+                                                        optionIndex ===
+                                                        correctAnswer[
+                                                            currentQuestionIndex
+                                                        ]
+                                                    }
+                                                    onClick={(e) =>
+                                                        handleCorrectAnswer(
+                                                            optionIndex
+                                                        )
+                                                    }
                                                 />
                                             </div>
 
-                                            {optionsType == "text" && (
+                                            {quizOptionsType == "text" && (
                                                 <input
                                                     type="text"
                                                     id={`option${currentQuestionIndex}-${optionIndex}`}
-                                                    value={option}
+                                                    value={option.text}
                                                     onChange={(e) =>
                                                         handleOptionChange(
                                                             e,
@@ -356,21 +447,24 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                                                         )
                                                     }
                                                     placeholder="Text"
-                                                    className={
-                                                         `${styles.optionTextOrImageInput} ${
-                                                            optionIndex === correctAnswer[currentQuestionIndex]
-                                                                ? styles.correctAnswer
-                                                                : ''
-                                                        }`
-                                                    }
+                                                    className={`${
+                                                        styles.optionTextOrImageInput
+                                                    } ${
+                                                        optionIndex ===
+                                                        correctAnswer[
+                                                            currentQuestionIndex
+                                                        ]
+                                                            ? styles.correctAnswer
+                                                            : ""
+                                                    }`}
                                                 />
                                             )}
 
-                                            {optionsType == "image" && (
+                                            {quizOptionsType == "image" && (
                                                 <input
                                                     type="text"
                                                     id={`option${currentQuestionIndex}-${optionIndex}`}
-                                                    value={option}
+                                                    value={option.imageUrl}
                                                     onChange={(e) =>
                                                         handleOptionChange(
                                                             e,
@@ -378,56 +472,64 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                                                         )
                                                     }
                                                     placeholder="Image URL"
-                                                    className={
-                                                         `${styles.optionTextOrImageInput} ${
-                                                            optionIndex === correctAnswer[currentQuestionIndex]
-                                                                ? styles.correctAnswer
-                                                                : ''
-                                                        }`
-                                                    }
+                                                    className={`${
+                                                        styles.optionTextOrImageInput
+                                                    } ${
+                                                        optionIndex ===
+                                                        correctAnswer[
+                                                            currentQuestionIndex
+                                                        ]
+                                                            ? styles.correctAnswer
+                                                            : ""
+                                                    }`}
                                                 />
                                             )}
 
-                                            {optionsType == "textImage" && (
+                                            {quizOptionsType == "textImage" && (
                                                 <>
                                                     {" "}
                                                     <input
                                                         type="text"
                                                         id={`option${currentQuestionIndex}-${optionIndex}`}
-                                                        value={option}
+                                                        value={option.text}
                                                         onChange={(e) =>
-                                                            handleOptionChange(
+                                                            handleTextOptionChange(
                                                                 e,
                                                                 optionIndex
                                                             )
                                                         }
-                                                        className={
-                                                            `${styles.optionTextInput} ${
-                                                            optionIndex === correctAnswer[currentQuestionIndex]
+                                                        className={`${
+                                                            styles.optionTextInput
+                                                        } ${
+                                                            optionIndex ===
+                                                            correctAnswer[
+                                                                currentQuestionIndex
+                                                            ]
                                                                 ? styles.correctAnswer
-                                                                : ''
-                                                        }`
-                                                        }
-
+                                                                : ""
+                                                        }`}
                                                         placeholder="Text"
                                                     />
                                                     <input
                                                         type="text"
-                                                        id={`option${currentQuestionIndex}-${optionIndex}`}
-                                                        value={option}
+                                                        id={`imageOption${currentQuestionIndex}-${optionIndex}`}
+                                                        value={option.imageUrl}
                                                         onChange={(e) =>
-                                                            handleOptionChange(
+                                                            handleImageUrlOptionChange(
                                                                 e,
                                                                 optionIndex
                                                             )
                                                         }
-                                                        className={
-                                                            `${styles.optionImageInput} ${
-                                                            optionIndex === correctAnswer[currentQuestionIndex]
+                                                        className={`${
+                                                            styles.optionImageInput
+                                                        } ${
+                                                            optionIndex ===
+                                                            correctAnswer[
+                                                                currentQuestionIndex
+                                                            ]
                                                                 ? styles.correctAnswer
-                                                                : ''
-                                                        }`
-                                                        }
+                                                                : ""
+                                                        }`}
                                                         placeholder="Image Url"
                                                     />
                                                 </>
@@ -526,7 +628,9 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                         Congrats your Quiz is Published!
                     </p>
                     <div className={styles.quizLinkDiv}>
-                        <p className={styles.quizLink}>Quiz Type</p>
+                        <p className={styles.quizLink}>
+                            {quizUrl ? quizUrl : "Please Wait..."}
+                        </p>
                     </div>
                     <div className={styles.buttonsDiv}>
                         <button
@@ -535,7 +639,7 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                                 backgroundColor: "#60B84B",
                                 color: "#FFF",
                             }}
-                            onClick={notify}
+                            onClick={handleShareLink}
                         >
                             Share
                         </button>
