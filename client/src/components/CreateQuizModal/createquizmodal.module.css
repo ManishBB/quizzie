@@ -219,6 +219,7 @@
     display: flex;
 }
 
+
 .correctAnswerBtn {
     width: auto;
     margin-right: 10px;
@@ -317,4 +318,10 @@
     background-color: #60b84b;
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
     font-size: 15px;
+}
+
+.correctAnswer {
+    background-color: #60b84b;
+    color: #fff;
+
 }

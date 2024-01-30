@@ -16,9 +16,10 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
     const [questions, setQuestions] = useState([""]);
     const [optionsType, setOptionsType] = useState("text");
     const [options, setOptions] = useState([["", ""]]);
+    const [correctAnswer, setCorrectAnswer] = useState(["", "", "", ""])
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-    useEffect(() => {}, [questions, options, currentQuestionIndex]);
+    useEffect(() => { console.log(correctAnswer);}, [questions, options, currentQuestionIndex, correctAnswer]);
 
     const handleQuizTypeChangeToQnA = (e) => {
         setQuizType("qna");
@@ -103,6 +104,12 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
             newOptions[currentQuestionIndex].splice(optionIndex, 1);
             setOptions(newOptions);
         }
+    };
+
+    const handleCorrectAnswer = (optionIndex) => {
+        const updatedAnswers = [...correctAnswer]; // Create a copy of the original array
+        updatedAnswers.splice(currentQuestionIndex, 1, optionIndex); // Insert the new answer at the specified index
+        setCorrectAnswer(updatedAnswers);
     };
 
     const handleQuestionTabClick = (index) => {
@@ -317,10 +324,6 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
 
                     <div className={styles.optionsAndTimerDiv}>
                         <div className={styles.optionsDiv}>
-                            {console.log(
-                                "while rendering options",
-                                currentQuestionIndex
-                            )}
                             {options[currentQuestionIndex] &&
                                 options[currentQuestionIndex].map(
                                     (option, optionIndex) => (
@@ -336,6 +339,8 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                                                     className={
                                                         styles.correctAnswerBtn
                                                     }
+                                                    checked={optionIndex === correctAnswer[currentQuestionIndex]}
+                                                    onClick={(e) => handleCorrectAnswer(optionIndex)}
                                                 />
                                             </div>
 
@@ -352,7 +357,11 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                                                     }
                                                     placeholder="Text"
                                                     className={
-                                                        styles.optionTextOrImageInput
+                                                         `${styles.optionTextOrImageInput} ${
+                                                            optionIndex === correctAnswer[currentQuestionIndex]
+                                                                ? styles.correctAnswer
+                                                                : ''
+                                                        }`
                                                     }
                                                 />
                                             )}
@@ -370,7 +379,11 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                                                     }
                                                     placeholder="Image URL"
                                                     className={
-                                                        styles.optionTextOrImageInput
+                                                         `${styles.optionTextOrImageInput} ${
+                                                            optionIndex === correctAnswer[currentQuestionIndex]
+                                                                ? styles.correctAnswer
+                                                                : ''
+                                                        }`
                                                     }
                                                 />
                                             )}
@@ -389,8 +402,13 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                                                             )
                                                         }
                                                         className={
-                                                            styles.optionTextInput
+                                                            `${styles.optionTextInput} ${
+                                                            optionIndex === correctAnswer[currentQuestionIndex]
+                                                                ? styles.correctAnswer
+                                                                : ''
+                                                        }`
                                                         }
+
                                                         placeholder="Text"
                                                     />
                                                     <input
@@ -404,7 +422,11 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
                                                             )
                                                         }
                                                         className={
-                                                            styles.optionImageInput
+                                                            `${styles.optionImageInput} ${
+                                                            optionIndex === correctAnswer[currentQuestionIndex]
+                                                                ? styles.correctAnswer
+                                                                : ''
+                                                        }`
                                                         }
                                                         placeholder="Image Url"
                                                     />
