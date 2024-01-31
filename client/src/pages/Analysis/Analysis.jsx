@@ -15,6 +15,9 @@ function Analysis() {
         setDeleteQuizModalActive,
         isCreateQuizModalActive,
         setIsCreateQuizModalActive,
+        isEditQuizModalActive,
+        setIsEditQuizModalActive,
+
     ] = useOutletContext();
 
     const navigate = useNavigate();
@@ -25,7 +28,7 @@ function Analysis() {
     const handleEditClick = (quizId) => {
         // Handle edit button click logic here...
         dispatch(getEditQuizId(quizId));
-        setIsCreateQuizModalActive(true);
+        setIsEditQuizModalActive(true);
     };
 
     const handleDeleteClick = (quizId) => {

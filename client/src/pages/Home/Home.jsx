@@ -27,6 +27,7 @@ import {
 } from "../../store/quizSlice";
 import { useDispatch } from "react-redux";
 import { login } from "../../store/authSlice";
+import EditQuizModal from "../../components/EditQuizModal/EditQuizModal";
 
 function Home() {
     const dispatch = useDispatch();
@@ -50,6 +51,8 @@ function Home() {
 
     const [isCreateQuizModalActive, setIsCreateQuizModalActive] =
         useState(false);
+    const [isEditQuizModalActive, setIsEditQuizModalActive] =
+        useState(false);
     const [isDeleteQuizModalActive, setDeleteQuizModalActive] = useState(false);
 
     return (
@@ -61,11 +64,18 @@ function Home() {
                     setDeleteQuizModalActive,
                     isCreateQuizModalActive,
                     setIsCreateQuizModalActive,
+                    isEditQuizModalActive,
+                    setIsEditQuizModalActive
                 ]}
             />
             {isCreateQuizModalActive && (
                 <CreateQuizModal
                     setIsCreateQuizModalActive={setIsCreateQuizModalActive}
+                />
+            )}
+            {isEditQuizModalActive && (
+                <EditQuizModal
+                    setIsEditQuizModalActive={setIsEditQuizModalActive}
                 />
             )}
             {isDeleteQuizModalActive && (
