@@ -54,7 +54,9 @@ function Login() {
             setEmail("");
             setPassword("");
         } catch (error) {
-            alert("Something went wrong!");
+            alert(
+                "Email or password is incorrect! Please enter correct credentials..."
+            );
         }
     };
 

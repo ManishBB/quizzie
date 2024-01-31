@@ -48,7 +48,8 @@ function SignUp({ setIsSignup }) {
             setEmail("");
             setPassword("");
         } catch (error) {
-            alert("Something went wrong!");
+            console.log(error);
+            alert("Something went wrong! User may exist already...");
         }
     };
 
