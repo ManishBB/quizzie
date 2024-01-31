@@ -7,7 +7,8 @@ function ImageOptionCard({ option }) {
             <img
                 className={styles.imageOption}
                 src={option.imageUrl}
-                alt="Ram Mandir"
+                alt="Image URL unreachable"
+                style={{ color: "red" }}
             />
         </div>
     );
