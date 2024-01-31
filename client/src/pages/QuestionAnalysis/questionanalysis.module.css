@@ -2,12 +2,127 @@
     flex: 8;
     width: 80vw;
     height: 100vh;
-    background-color: #EDEDED;
+    background-color: #ededed;
     overflow: hidden;
 }
 
+.loaderContainer {
+    display: block;
+    width: 80vw;
+    height: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.loader {
+    position: relative;
+    top: 300px;
+    left: 550px;
+    display: block;
+    width: 50px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    color: #60b84b;
+    border: 8px solid #60b84b;
+    animation: l20-1 0.8s infinite linear alternate, l20-2 1.6s infinite linear;
+}
+@keyframes l20-1 {
+    0% {
+        clip-path: polygon(
+            50% 50%,
+            0 0,
+            50% 0%,
+            50% 0%,
+            50% 0%,
+            50% 0%,
+            50% 0%
+        );
+    }
+    12.5% {
+        clip-path: polygon(
+            50% 50%,
+            0 0,
+            50% 0%,
+            100% 0%,
+            100% 0%,
+            100% 0%,
+            100% 0%
+        );
+    }
+    25% {
+        clip-path: polygon(
+            50% 50%,
+            0 0,
+            50% 0%,
+            100% 0%,
+            100% 100%,
+            100% 100%,
+            100% 100%
+        );
+    }
+    50% {
+        clip-path: polygon(
+            50% 50%,
+            0 0,
+            50% 0%,
+            100% 0%,
+            100% 100%,
+            50% 100%,
+            0% 100%
+        );
+    }
+    62.5% {
+        clip-path: polygon(
+            50% 50%,
+            100% 0,
+            100% 0%,
+            100% 0%,
+            100% 100%,
+            50% 100%,
+            0% 100%
+        );
+    }
+    75% {
+        clip-path: polygon(
+            50% 50%,
+            100% 100%,
+            100% 100%,
+            100% 100%,
+            100% 100%,
+            50% 100%,
+            0% 100%
+        );
+    }
+    100% {
+        clip-path: polygon(
+            50% 50%,
+            50% 100%,
+            50% 100%,
+            50% 100%,
+            50% 100%,
+            50% 100%,
+            0% 100%
+        );
+    }
+}
+@keyframes l20-2 {
+    0% {
+        transform: scaleY(1) rotate(0deg);
+    }
+    49.99% {
+        transform: scaleY(1) rotate(135deg);
+    }
+    50% {
+        transform: scaleY(-1) rotate(0deg);
+    }
+    100% {
+        transform: scaleY(-1) rotate(-135deg);
+    }
+}
+
 .metadataContainer {
-    color: #FF5D01;
+    color: #ff5d01;
     font-size: 15px;
     font-weight: 600;
     position: absolute;
@@ -15,35 +130,34 @@
     right: 80px;
 }
 
-.wrapper{
+.wrapper {
     width: 850px;
     height: 100%;
     margin: auto;
     overflow: scroll;
     overflow-x: hidden;
-
 }
 
 ::-webkit-scrollbar {
-    width: 1px;  /* Remove scrollbar space */
-    margin-left: 5px    ;
+    width: 1px; /* Remove scrollbar space */
+    margin-left: 5px;
     border-radius: 5px;
-    background: transparent;  /* Optional: just make scrollbar invisible */
+    background: transparent; /* Optional: just make scrollbar invisible */
 }
 /* Optional: show position indicator in red */
 ::-webkit-scrollbar-thumb {
-    background: gray;
+    background: rgb(194, 194, 194);
 }
 
 .heading {
     display: block;
-    color: #5076FF;
+    color: #5076ff;
     font-size: 40px;
     font-weight: 600;
     margin: 50px 0 20px 0;
 }
 
-.question{
+.question {
     display: block;
     color: #000000;
     font-size: 30px;
@@ -57,6 +171,6 @@
 }
 
 .horizontalDivider {
-    border: 2px solid #D7D7D7;
+    border: 2px solid #d7d7d7;
     margin: 20px 0 20px 0;
 }

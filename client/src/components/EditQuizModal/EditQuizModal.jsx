@@ -7,6 +7,17 @@ import conf from "../../config/config";
 import axios from "axios";
 import { getQuiz } from "../../utils/ApiUtils";
 import { useSelector } from "react-redux";
+import {
+    getUserCreatedQuizzes,
+    getUserQuizStats,
+    getUserTrendingQuizzes,
+} from "../../utils/ApiUtils";
+import {
+    getCreatedQuizzes,
+    getQuizStats,
+    getTrendingQizzes,
+} from "../../store/quizSlice";
+import { useDispatch } from "react-redux";
 
 function EditQuizModal({ setIsEditQuizModalActive }) {
     const [quizTitleModal, setQuizTitleModal] = useState(true);
@@ -84,6 +95,22 @@ function EditQuizModal({ setIsEditQuizModalActive }) {
         correctAnswer,
         quizUrl,
     ]);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchQuizData = async () => {
+            const statJson = await getUserQuizStats();
+            const trendingJson = await getUserTrendingQuizzes();
+            const createdJson = await getUserCreatedQuizzes();
+
+            dispatch(getQuizStats(statJson.data));
+            dispatch(getTrendingQizzes(trendingJson.data));
+            dispatch(getCreatedQuizzes(createdJson.data));
+        };
+
+        fetchQuizData();
+    }, [quizUrl]);
 
     const handleQuizTypeChangeToQnA = (e) => {
         setQuizType("qna");

@@ -30,7 +30,7 @@ function QuizLayout() {
         setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
     };
 
-    return (
+    return quiz ? (
         <div className={styles.container}>
             {currentQuestionIndex < quiz?.questions.length ? (
                 <Quiz
@@ -52,6 +52,10 @@ function QuizLayout() {
             ) : (
                 <PollCompletion />
             )}
+        </div>
+    ) : (
+        <div className={styles.container}>
+            <div className={styles.loader}></div>
         </div>
     );
 }

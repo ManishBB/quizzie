@@ -20,7 +20,7 @@ function QuestionAnalysis() {
         fetchQuizData();
     }, []);
 
-    return (
+    return quizData ? (
         <div className={styles.container}>
             <p className={styles.metadataContainer}>
                 Created on :{" "}
@@ -76,6 +76,12 @@ function QuestionAnalysis() {
                         <hr className={styles.horizontalDivider} />
                     </div>
                 ))}
+            </div>
+        </div>
+    ) : (
+        <div className={styles.container}>
+            <div className={StylePropertyMap.loaderContainer}>
+                <div className={styles.loader}></div>
             </div>
         </div>
     );

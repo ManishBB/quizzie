@@ -17,7 +17,6 @@ function Analysis() {
         setIsCreateQuizModalActive,
         isEditQuizModalActive,
         setIsEditQuizModalActive,
-
     ] = useOutletContext();
 
     const navigate = useNavigate();
@@ -49,7 +48,7 @@ function Analysis() {
         navigate(`/question-analysis/${quizId}`, { state: quizId });
     };
 
-    return (
+    return quizzesData ? (
         <div className={styles.analysisContainer}>
             <h1 className={styles.heading}>Quiz Analysis</h1>
             <div className={styles.tableContainer}>
@@ -69,7 +68,7 @@ function Analysis() {
                     <tbody>
                         {quizzesData?.map((quiz, index) => (
                             <tr key={index}>
-                                <td>{index}</td>
+                                <td>{index + 1}</td>
                                 <td>{quiz.quizName}</td>
                                 <td>
                                     {new Date(
@@ -138,6 +137,12 @@ function Analysis() {
                     theme="light"
                     transition:Bounce
                 />
+            </div>
+        </div>
+    ) : (
+        <div className={styles.analysisContainer}>
+            <div className={StylePropertyMap.loaderContainer}>
+                <div className={styles.loader}></div>
             </div>
         </div>
     );

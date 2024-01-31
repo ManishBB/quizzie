@@ -6,6 +6,18 @@ import "react-toastify/dist/ReactToastify.css";
 import conf from "../../config/config";
 import axios from "axios";
 
+import {
+    getUserCreatedQuizzes,
+    getUserQuizStats,
+    getUserTrendingQuizzes,
+} from "../../utils/ApiUtils";
+import {
+    getCreatedQuizzes,
+    getQuizStats,
+    getTrendingQizzes,
+} from "../../store/quizSlice";
+import { useDispatch } from "react-redux";
+
 function CreateQuizModal({ setIsCreateQuizModalActive }) {
     const [quizTitleModal, setQuizTitleModal] = useState(true);
     const [addQuestionsModal, setAddQuestionsModal] = useState(false);
@@ -31,6 +43,22 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
     useEffect(() => {
         console.log(options);
     }, [questions, options, currentQuestionIndex, correctAnswer, quizUrl]);
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchQuizData = async () => {
+            const statJson = await getUserQuizStats();
+            const trendingJson = await getUserTrendingQuizzes();
+            const createdJson = await getUserCreatedQuizzes();
+
+            dispatch(getQuizStats(statJson.data));
+            dispatch(getTrendingQizzes(trendingJson.data));
+            dispatch(getCreatedQuizzes(createdJson.data));
+        };
+
+        fetchQuizData();
+    }, [quizUrl]);
 
     const handleQuizTypeChangeToQnA = (e) => {
         setQuizType("qna");

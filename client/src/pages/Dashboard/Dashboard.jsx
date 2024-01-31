@@ -18,7 +18,7 @@ function Dashboard() {
         }
     };
 
-    return (
+    return quizStats ? (
         <div className={styles.dashboard}>
             <div className={styles.statsCardsContainer}>
                 <StatCard
@@ -49,6 +49,12 @@ function Dashboard() {
                         />
                     ))}
                 </div>
+            </div>
+        </div>
+    ) : (
+        <div className={styles.dashboard}>
+            <div className={StylePropertyMap.loaderContainer}>
+                <div className={styles.loader}></div>
             </div>
         </div>
     );
