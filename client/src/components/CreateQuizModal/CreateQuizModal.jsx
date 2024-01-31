@@ -290,7 +290,7 @@ function CreateQuizModal({ setIsCreateQuizModalActive }) {
             console.log(response.data.statusCode);
 
             if (response.data.statusCode == 200) {
-                setQuizUrl(`http://localhost:5173/quiz/${data._id}`);
+                setQuizUrl(`https://quizzie-theta.vercel.app/quiz/${data._id}`);
                 setAddQuestionsModal(false);
                 setQuizCreatedModal(true);
                 console.log(quizUrl);

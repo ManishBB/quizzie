@@ -39,7 +39,9 @@ function Analysis() {
 
     const handleShareClick = (quizId) => {
         // Handle share button click logic here...
-        navigator.clipboard.writeText(`http://localhost:5173/quiz/${quizId}`);
+        navigator.clipboard.writeText(
+            `https://quizzie-theta.vercel.app/quiz/${quizId}`
+        );
         toast.success("Link copied to clipboard");
     };
 
