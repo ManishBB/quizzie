@@ -9,15 +9,14 @@ import { getQuiz } from "../../utils/ApiUtils";
 import { useSelector } from "react-redux";
 
 function EditQuizModal({ setIsEditQuizModalActive }) {
-    
     const [quizTitleModal, setQuizTitleModal] = useState(true);
     const [addQuestionsModal, setAddQuestionsModal] = useState(false);
     const [quizCreatedModal, setQuizCreatedModal] = useState(false);
-    
+
     const [quizName, setQuizName] = useState("");
     const [quizType, setQuizType] = useState("qna");
     const [quizTimer, setQuizTimer] = useState(0);
-    
+
     const [questions, setQuestions] = useState([""]);
     const [quizOptionsType, setOptionsType] = useState("text");
     const [options, setOptions] = useState([
@@ -28,99 +27,92 @@ function EditQuizModal({ setIsEditQuizModalActive }) {
     ]);
     const [correctAnswer, setCorrectAnswer] = useState(["", "", "", ""]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-    
+
     const [quizUrl, setQuizUrl] = useState("");
-    
-    const quizId = useSelector((state) => state.metadata.editQuizId)
 
-    const [quiz, setQuiz] = useState()
-    
-    
+    const quizId = useSelector((state) => state.metadata.editQuizId);
+
+    const [quiz, setQuiz] = useState();
+
     useEffect(() => {
-
         const mapDataToFields = (quiz) => {
-    
             setQuizName(quiz?.quizName);
             setQuizType(quiz?.quizType);
 
-            let questions = []
-            let correctAnswer = []
-            let options = [[], []]
+            let questions = [];
+            let correctAnswer = [];
+            let options = [[], []];
 
             quiz.questions.map((question, index) => {
-                questions[index] = question.questionTitle
-                correctAnswer[index] = question.correctAnswer
+                questions[index] = question.questionTitle;
+                correctAnswer[index] = question.correctAnswer;
 
                 question.options.map((option, optionIndex) => {
-                    options[index][optionIndex] = option
+                    options[index][optionIndex] = option;
                     console.log(option);
-                })
-            })
+                });
+            });
 
-            setQuestions(questions)
-            setOptions(options)
-            setCorrectAnswer(correctAnswer)
-            setOptionsType(quiz.optionsType)
-            setQuizTimer(quiz.timer)
+            setQuestions(questions);
+            setOptions(options);
+            setCorrectAnswer(correctAnswer);
+            setOptionsType(quiz?.optionsType);
+            setQuizTimer(quiz?.timer);
 
             console.log(questions, correctAnswer, quiz.optionsType);
             console.log(quizType);
-            
-        }
-    
-        
-        const fetchQuizData = async () => {            
+        };
+
+        const fetchQuizData = async () => {
             const quizData = await getQuiz(quizId);
             await axios.patch(`${conf.baseUrl}/quiz/update-quiz-impression`, {
                 quizId: quizId,
             });
             console.log(quizData.data);
             setQuiz(quizData.data);
-            mapDataToFields(quizData.data)
+            mapDataToFields(quizData.data);
         };
         fetchQuizData();
-
     }, []);
 
-    useEffect(() => {
-        
-        
-    }, [quiz])
+    useEffect(() => {}, [quiz]);
 
-    
-    
-    useEffect(() => {
-        console.log(options);
-    }, [questions, options, currentQuestionIndex, correctAnswer, quizUrl]);
-    
+    useEffect(() => {}, [
+        questions,
+        options,
+        currentQuestionIndex,
+        correctAnswer,
+        quizUrl,
+    ]);
+
     const handleQuizTypeChangeToQnA = (e) => {
         setQuizType("qna");
     };
-    
+
     const handleQuizTypeChangeToPoll = (e) => {
         setQuizType("poll");
     };
-    
+
     const handleNextTab = (e) => {
         if (quizName === "") {
             alert("Please enter the quiz name!");
             return;
         }
-        
+
         setQuizTitleModal(false);
         setAddQuestionsModal(true);
     };
-    
+
     const handleOptionTypeChange = (e) => {
         setOptionsType(e.target.value);
     };
-    
+
     const handleQuestionChange = (e) => {
         const newQuestions = [...questions];
         newQuestions[currentQuestionIndex] = e.target.value;
         setQuestions(newQuestions);
     };
-    
+
     const handleOptionChange = (e, optionIndex) => {
         if (quizOptionsType === "text") {
             const newOptions = [...options];
@@ -129,11 +121,11 @@ function EditQuizModal({ setIsEditQuizModalActive }) {
         } else {
             const newOptions = [...options];
             newOptions[currentQuestionIndex][optionIndex].imageUrl =
-            e.target.value;
+                e.target.value;
             setOptions(newOptions);
         }
     };
-    
+
     const handleTextOptionChange = (e, optionIndex) => {
         const newOptions = [...options];
         newOptions[currentQuestionIndex][optionIndex].text = e.target.value;
@@ -145,7 +137,7 @@ function EditQuizModal({ setIsEditQuizModalActive }) {
         newOptions[currentQuestionIndex][optionIndex].imageUrl = e.target.value;
         setOptions(newOptions);
     };
-    
+
     const handleAddQuestion = () => {
         if (questions.length < 5) {
             setQuestions([...questions, ""]);
@@ -159,7 +151,7 @@ function EditQuizModal({ setIsEditQuizModalActive }) {
             setCurrentQuestionIndex(questions.length);
         }
     };
-    
+
     const handleRemoveQuestion = (index) => {
         if (index == 0) {
             if (currentQuestionIndex != index) {
@@ -213,7 +205,7 @@ function EditQuizModal({ setIsEditQuizModalActive }) {
         setCurrentQuestionIndex(index);
     };
 
-    const handleCreateQuiz = async () => {
+    const handleUpdateQuiz = async () => {
         if (quizType === "poll") {
             for (let i = 0; i < questions.length; i++) {
                 correctAnswer[i] = 0;
@@ -274,6 +266,7 @@ function EditQuizModal({ setIsEditQuizModalActive }) {
         }
 
         const quiz = {
+            quizId: quizId,
             quizName: quizName,
             quizType: quizType,
             timer: quizTimer,
@@ -305,8 +298,8 @@ function EditQuizModal({ setIsEditQuizModalActive }) {
         };
 
         try {
-            const response = await axios.post(
-                `${conf.baseUrl}/quiz/create-quiz`,
+            const response = await axios.patch(
+                `${conf.baseUrl}/quiz/update-quiz`,
                 {
                     ...quiz,
                 },
@@ -743,9 +736,9 @@ function EditQuizModal({ setIsEditQuizModalActive }) {
                         </button>
                         <button
                             className={styles.createQuizBtn}
-                            onClick={handleCreateQuiz}
+                            onClick={handleUpdateQuiz}
                         >
-                            Create Quiz
+                            Update Quiz
                         </button>
                     </div>
                 </div>
@@ -760,7 +753,7 @@ function EditQuizModal({ setIsEditQuizModalActive }) {
                         x
                     </span>
                     <p className={styles.quizCreatedText}>
-                        Congrats your Quiz is Published!
+                        Your Quiz is Updated!
                     </p>
                     <div className={styles.quizLinkDiv}>
                         <p className={styles.quizLink}>

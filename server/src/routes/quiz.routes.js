@@ -10,12 +10,14 @@ import {
     updatePollOptionImpression,
     updateQnaCorrectOptionImpression,
     updateQnaWrongOptionImpression,
+    updateQuiz,
     updateQuizImpressions,
 } from "../controllers/quiz.controller.js";
 
 const router = Router();
 
 router.route("/create-quiz").post(verifyUserJWT, createQuiz);
+router.route("/update-quiz").patch(verifyUserJWT, updateQuiz);
 router.route("/get-quiz/:quizId").get(getQuizById);
 router.route("/delete-quiz/:quizId").delete(verifyUserJWT, deleteQuiz);
 router.route("/get-all-quizzes").get(verifyUserJWT, getAllQuizzes);

@@ -31,6 +31,33 @@ const createQuiz = async (req, res) => {
         );
 };
 
+const updateQuiz = async (req, res) => {
+    const { quizId, quizName, quizType, timer, optionsType, questions } =
+        req.body;
+
+    const quiz = await Quiz.findOneAndUpdate(
+        { _id: req.body.quizId },
+        {
+            $set: {
+                quizName: quizName,
+                quizType: quizType,
+                timer: timer,
+                optionsType: optionsType,
+                questions: questions,
+            },
+        }
+    );
+
+    const createdQuiz = await Quiz.findById(quiz._id);
+
+    if (!createQuiz)
+        throw new ApiError(500, "Something went wrong while updating quiz");
+
+    return res
+        .status(200)
+        .json(new ApiResponse(200, createdQuiz, "Quiz updated successfully"));
+};
+
 const updateQuizImpressions = async (req, res) => {
     //updating quiz impressions every time user visits the quiz
 
@@ -292,6 +319,7 @@ export {
     getAllQuizzes,
     getTrendingQuizzes,
     getDashboardStats,
+    updateQuiz,
     updateQuizImpressions,
     updatePollOptionImpression,
     updateQnaCorrectOptionImpression,
