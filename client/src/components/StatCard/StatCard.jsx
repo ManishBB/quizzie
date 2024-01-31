@@ -5,7 +5,7 @@ function StatCard({ color, data, message }) {
     return (
         <div className={styles.statcard}>
             <div className={styles.statContainer} style={{ color: color }}>
-                <p className={styles.countStat}>{data}</p>
+                <p className={styles.countStat}>{data ? data : 0}</p>
                 <p className={styles.countText}>{message}</p>
             </div>
         </div>

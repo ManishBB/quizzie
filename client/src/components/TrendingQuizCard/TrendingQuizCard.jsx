@@ -3,7 +3,6 @@ import styles from "./trendingquizcard.module.css";
 import ViewsSVG from "../../assets/views.svg";
 
 function TrendingQuizCard({ name, impressions, createdAt, quiz }) {
-    console.log(quiz);
     return (
         <div className={styles.trendingQuizCard}>
             <div className={styles.quizData}>
