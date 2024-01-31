@@ -1,0 +1,278 @@
+{
+	"info": {
+		"_postman_id": "bb1943fb-ca37-4fad-8c84-83bc6ff3ce84",
+		"name": "Quizzie",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17365091"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "register user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\": \"Manish\",\r\n    \"email\": \"manish@manish@.com\",\r\n    \"password\": \"manish\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/user/register-user",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"user",
+								"register-user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login user",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/user/login-user",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"user",
+								"login-user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Quiz",
+			"item": [
+				{
+					"name": "create quiz",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quizName\": \"Win MacBook\", \r\n    \"quizType\": \"qna\", \r\n    \"timer\": 5, \r\n    \"questions\": [\r\n        {\r\n            \"questionTitle\": \"What is MacBook?\",\r\n            \"correctAnswer\": 2,\r\n            \"options\": [\r\n                {\r\n                    \"text\": \"A Laptop\",\r\n                    \"imageUrl\": \"https://google.com\"\r\n                },\r\n                {\r\n                    \"text\": \"A Laptop\",\r\n                    \"imageUrl\": \"https://google.com\"\r\n                },\r\n                {\r\n                    \"text\": \"A Laptop\",\r\n                    \"imageUrl\": \"https://google.com\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"questionTitle\": \"What is Laptop?\",\r\n            \"correctAnswer\": 1,\r\n            \"options\": [\r\n                {\r\n                    \"text\": \"A Laptop\",\r\n                    \"imageUrl\": \"https://google.com\"\r\n                },\r\n                {\r\n                    \"text\": \"A Laptop\",\r\n                    \"imageUrl\": \"https://google.com\"\r\n                },\r\n                {\r\n                    \"text\": \"A Laptop\",\r\n                    \"imageUrl\": \"https://google.com\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/quiz/create-quiz",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"quiz",
+								"create-quiz"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get quiz by id",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "delete quiz",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server}}/quiz/delete-quiz/65aaad863c4415942314a729",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"quiz",
+								"delete-quiz",
+								"65aaad863c4415942314a729"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get trending quizzes",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "get dashboard stats",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "get all quizzes",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "update poll option impression",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"optionId\": \"65aa646261fac643a8cfa6c2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/quiz/update-poll-option-impression",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"quiz",
+								"update-poll-option-impression"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update qna correct option impression",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"questionId\": \"65aa646261fac643a8cfa6c1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/quiz/update-qna-correct-option-impression",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"quiz",
+								"update-qna-correct-option-impression"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update qna wrong option impression",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"questionId\": \"65aa646261fac643a8cfa6c1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/quiz/update-qna-correct-option-impression",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"quiz",
+								"update-qna-correct-option-impression"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update quiz impression",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quizId\": \"65b771f69fa84bc2d744d518\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/quiz/update-quiz-impression",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"quiz",
+								"update-quiz-impression"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "New Request",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"quizId\": \"65b7c31b04f98aa70a12df5b\", \r\n    \"quizName\": \"Tomato Data\", \r\n    \"quizType\": \"qna\", \r\n    \"timer\": 5, \r\n    \"optionsType\": \"image\",\r\n    \"questions\": [\r\n        {\r\n            \"questionTitle\": \"What is Apple?\",\r\n            \"correctAnswer\": 2,\r\n            \"options\": [\r\n                {\r\n                    \"text\": \"\",\r\n                    \"imageUrl\": \"https://8f430952.rocketcdn.me/wp-content/uploads/2023/09/zomato-1200x600-1.jpg\"\r\n                },\r\n                {\r\n                    \"text\": \"\",\r\n                    \"imageUrl\": \"https://8f430952.rocketcdn.me/wp-content/uploads/2023/09/zomato-1200x600-1.jpg\"\r\n                },\r\n                {\r\n                    \"text\": \"\",\r\n                    \"imageUrl\": \"https://8f430952.rocketcdn.me/wp-content/uploads/2023/09/zomato-1200x600-1.jpg\"\r\n                },\r\n                {\r\n                    \"text\": \"\",\r\n                    \"imageUrl\": \"https://8f430952.rocketcdn.me/wp-content/uploads/2023/09/zomato-1200x600-1.jpg\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"questionTitle\": \"What is OnePlus?\",\r\n            \"correctAnswer\": 0,\r\n            \"options\": [\r\n                {\r\n                    \"text\": \"\",\r\n                    \"imageUrl\": \"https://8f430952.rocketcdn.me/wp-content/uploads/2023/09/zomato-1200x600-1.jpg\"\r\n                },\r\n                {\r\n                    \"text\": \"\",\r\n                    \"imageUrl\": \"https://8f430952.rocketcdn.me/wp-content/uploads/2023/09/zomato-1200x600-1.jpg\"\r\n                },\r\n                {\r\n                    \"text\": \"\",\r\n                    \"imageUrl\": \"https://8f430952.rocketcdn.me/wp-content/uploads/2023/09/zomato-1200x600-1.jpg\"\r\n                },\r\n                {\r\n                    \"text\": \"\",\r\n                    \"imageUrl\": \"https://8f430952.rocketcdn.me/wp-content/uploads/2023/09/zomato-1200x600-1.jpg\"\r\n                }\r\n            ]\r\n        },\r\n        {\r\n            \"questionTitle\": \"What is Tata?\",\r\n            \"correctAnswer\": 3,\r\n            \"options\": [\r\n                {\r\n                    \"text\": \"\",\r\n                    \"imageUrl\": \"https://8f430952.rocketcdn.me/wp-content/uploads/2023/09/zomato-1200x600-1.jpg\"\r\n                },\r\n                {\r\n                    \"text\": \"\",\r\n                    \"imageUrl\": \"https://8f430952.rocketcdn.me/wp-content/uploads/2023/09/zomato-1200x600-1.jpg\"\r\n                },\r\n                {\r\n                    \"text\": \"\",\r\n                    \"imageUrl\": \"https://8f430952.rocketcdn.me/wp-content/uploads/2023/09/zomato-1200x600-1.jpg\"\r\n                },\r\n                {\r\n                    \"text\": \"\",\r\n                    \"imageUrl\": \"https://8f430952.rocketcdn.me/wp-content/uploads/2023/09/zomato-1200x600-1.jpg\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server}}/quiz/update-quiz",
+							"host": [
+								"{{server}}"
+							],
+							"path": [
+								"quiz",
+								"update-quiz"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

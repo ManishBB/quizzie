@@ -133,6 +133,11 @@ function Quiz({
                                             index
                                         )
                                     }
+                                    className={`${
+                                        selectedOption === index
+                                            ? styles.activeOptionBorder
+                                            : styles.optionBorder
+                                    }`}
                                 >
                                     <ImageOptionCard option={option} />
                                 </div>
@@ -149,6 +154,11 @@ function Quiz({
                                             index
                                         )
                                     }
+                                    className={`${
+                                        selectedOption === index
+                                            ? styles.activeOptionBorder
+                                            : styles.optionBorder
+                                    }`}
                                 >
                                     <TextImageOptionCard option={option} />
                                 </div>
