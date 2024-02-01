@@ -243,12 +243,16 @@ const getTrendingQuizzes = async (req, res) => {
         },
     ]);
 
+    const filteredTrendingQuizzes = trendingQuizzes.filter(
+        (item) => item.impressions > 10
+    );
+
     return res
         .status(200)
         .json(
             new ApiResponse(
                 200,
-                trendingQuizzes,
+                filteredTrendingQuizzes,
                 "Trending quizzes fetched successfully"
             )
         );
