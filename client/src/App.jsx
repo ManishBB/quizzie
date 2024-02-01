@@ -73,6 +73,11 @@ function App() {
                     element={<QuizLayout />}
                     errorElement={<NotFound />}
                 ></Route>
+                <Route
+                    path="/broken"
+                    element={<NotFound />}
+                    errorElement={<NotFound />}
+                ></Route>
                 {/* <Route
                 loader={githubInfoLoader}
                 path="github"

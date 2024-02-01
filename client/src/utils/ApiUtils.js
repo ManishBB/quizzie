@@ -76,9 +76,12 @@ export const getQuiz = async (quizId) => {
 
         return response.data;
     } catch (error) {
+        const response =
+            "Your quiz link might be broken! Please come up with a new link...";
         alert(
             "Your quiz link might be broken! Please come up with a new link..."
         );
+        return response;
     }
 };
 

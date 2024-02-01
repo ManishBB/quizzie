@@ -6,17 +6,23 @@ import PollCompletion from "../PollCompletion/PollCompletion";
 import { getQuiz } from "../../utils/ApiUtils";
 import axios from "axios";
 import conf from "../../config/config";
+import { useNavigate } from "react-router-dom";
 
 function QuizLayout() {
     const [quiz, setQuiz] = useState();
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     const [correctAnswers, setCorrectAnswers] = useState(0);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         const fetchQuizData = async () => {
             const url = new URL(window.location.href);
             const quizId = url.pathname.split("/")[2];
             const quizData = await getQuiz(quizId);
+            if (!quizData?.data) {
+                navigate("/broken", { state: quizData });
+            }
             await axios.patch(`${conf.baseUrl}/quiz/update-quiz-impression`, {
                 quizId: quizId,
             });

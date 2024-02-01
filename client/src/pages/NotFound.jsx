@@ -1,6 +1,10 @@
 import React from "react";
+import { useLocation } from "react-router-dom";
 
 function NotFound() {
+    const location = useLocation();
+    const message = location?.state;
+
     return (
         <div
             style={{
@@ -13,7 +17,7 @@ function NotFound() {
                 fontSize: "30px",
             }}
         >
-            404 | Not Found | Bad Request
+            {message ? message : "404 | Not Found | Bad Request"}
         </div>
     );
 }
