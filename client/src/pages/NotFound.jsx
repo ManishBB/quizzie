@@ -11,6 +11,7 @@ function NotFound() {
                 width: "100vw",
                 height: "100vh",
                 display: "flex",
+                textAlign: "center",
                 justifyContent: "center",
                 alignItems: "center",
                 color: "#474444",
