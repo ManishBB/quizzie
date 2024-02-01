@@ -76,7 +76,9 @@ export const getQuiz = async (quizId) => {
 
         return response.data;
     } catch (error) {
-        alert("Something went wrong while fetching quiz stats!");
+        alert(
+            "Your quiz link might be broken! Please come up with a new link..."
+        );
     }
 };
 
